@@ -3,8 +3,8 @@
 Aplicación web de **Subrayado**, una red social para lectores donde se publican reseñas de libros. Trabajo Práctico #2 de Programación IV (UTN Avellaneda, Tecnicatura Universitaria en Programación).
 
 - **Back:** https://github.com/rodrivzq14/subrayado-back
-- **App desplegada:** _proximamente_
-- **API desplegada:** _proximamente_
+- **App desplegada:** https://subrayado-vazquez.netlify.app
+- **API desplegada:** https://subrayado-back.onrender.com/
 
 ## Tecnologías
 
@@ -27,7 +27,7 @@ cd subrayado-front
 npm install
 ```
 
-Si el back corre en local, no hay que configurar nada: el front apunta a `http://localhost:3000`. Para usar otro back, cambiá la constante `API` en `src/app/services/auth.ts`.
+El front apunta al back desplegado en render. Para usar un back local, cambiá la constante API en src/app/services/auth.ts por http://localhost:3000.
 
 ## Scripts
 
@@ -82,8 +82,6 @@ Tipografías: Playfair Display (títulos) e Inter (texto).
 ```
 /* /index.html 200
 ```
-
-Antes de desplegar, cambiar `API` en `src/app/services/auth.ts` por la URL del back en Render.
 
 ## Autor
 
