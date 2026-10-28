@@ -1,59 +1,90 @@
-# SubrayadoFront
+# Subrayado - Front
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.1.5.
+Aplicación web de **Subrayado**, una red social para lectores donde se publican reseñas de libros. Trabajo Práctico #2 de Programación IV (UTN Avellaneda, Tecnicatura Universitaria en Programación).
 
-## Development server
+- **Back:** https://github.com/rodrivzq14/subrayado-back
+- **App desplegada:** _proximamente_
+- **API desplegada:** _proximamente_
 
-To start a local development server, run:
+## Tecnologías
 
-```bash
-ng serve
-```
+- Angular (componentes standalone, signals y formularios reactivos)
+- Angular Router
+- HttpClient
+- CSS propio, sin librerías de UI
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Requisitos
 
-## Code scaffolding
+- Node.js 20 o superior
+- Angular CLI (`npm i -g @angular/cli`)
+- El back corriendo (local o desplegado)
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+## Instalación
 
 ```bash
-ng build
+git clone https://github.com/rodrivzq14/subrayado-front.git
+cd subrayado-front
+npm install
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Si el back corre en local, no hay que configurar nada: el front apunta a `http://localhost:3000`. Para usar otro back, cambiá la constante `API` en `src/app/services/auth.ts`.
 
-## Running unit tests
+## Scripts
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+| Comando | Descripción |
+|---|---|
+| `ng serve -o` | Servidor de desarrollo en `http://localhost:4200` |
+| `ng build` | Build de producción en `dist/` |
 
-```bash
-ng test
+## Pantallas (Sprint 1)
+
+| Ruta | Pantalla | Descripción |
+|---|---|---|
+| `/registro` | Registro | Formulario con validaciones, foto de perfil y repetir contraseña |
+| `/login` | Login | Ingreso con correo o nombre de usuario |
+| `/publicaciones` | Reseñas | Se completa en el Sprint 2 |
+| `/mi-perfil` | Mi estantería | Datos y foto del usuario logueado |
+
+## Características
+
+- Validaciones con mensajes por campo. La contraseña requiere 8 caracteres, una mayúscula y un número.
+- Modales en lugar de `alert()`, mediante un servicio central (`ModalService`).
+- Sesión guardada en `localStorage`, con botón de cerrar sesión en la barra de navegación.
+- Favicon propio y paleta de colores uniforme en toda la aplicación.
+
+## Estructura
+
+```
+src/app/
+├── components/modal/    modal reutilizable
+├── pages/               registro, login, publicaciones, mi-perfil
+└── services/            auth y modal
 ```
 
-## Running end-to-end tests
+## Identidad visual
 
-For end-to-end (e2e) testing, run:
+| Uso | Color |
+|---|---|
+| Fondo | `#F5EFE6` |
+| Texto | `#3B2A20` |
+| Principal | `#2F5D50` |
+| Acento | `#C8963E` |
+| Errores | `#7A2E3A` |
 
-```bash
-ng e2e
+Tipografías: Playfair Display (títulos) e Inter (texto).
+
+## Deploy (Netlify)
+
+- **Build command:** `ng build`
+- **Carpeta de publicación:** `dist/subrayado-front/browser` (verificar el nombre exacto tras el build)
+- Para que las rutas funcionen al recargar, agregar `public/_redirects` con:
+
+```
+/* /index.html 200
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Antes de desplegar, cambiar `API` en `src/app/services/auth.ts` por la URL del back en Render.
 
-## Additional Resources
+## Autor
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Rodrigo Vazquez - Programación IV, 4º cuatrimestre.

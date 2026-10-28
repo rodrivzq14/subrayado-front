@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject, signal } from '@angular/core';
 import { tap } from 'rxjs';
 
-const API = 'http://localhost:3000'; // cambiar al hacer el deploy
+const API = 'https://subrayado-back.onrender.com';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
