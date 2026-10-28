@@ -1,0 +1,9 @@
+@if (modal.datos(); as d) {
+  <div style="position:fixed;inset:0;background:#0007;display:grid;place-items:center" (click)="modal.cerrar()">
+    <div class="card" style="margin:0" (click)="$event.stopPropagation()">
+      <h2>{{ d.titulo }}</h2>
+      <p>{{ d.texto }}</p>
+      <button (click)="modal.cerrar()">Entendido</button>
+    </div>
+  </div>
+}

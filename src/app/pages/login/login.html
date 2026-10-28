@@ -1,0 +1,12 @@
+<form class="card" [formGroup]="form" (ngSubmit)="enviar()">
+  <h1>Volvé a tu <span class="sub">lectura</span></h1>
+
+  <label>Correo o nombre de usuario <input formControlName="identificador"></label>
+  @if (invalido('identificador')) { <span class="error">Este campo es obligatorio</span> }
+
+  <label>Contraseña <input type="password" formControlName="password"></label>
+  @if (invalido('password')) { <span class="error">Mínimo 8 caracteres, una mayúscula y un número</span> }
+
+  <button [disabled]="form.invalid">Ingresar</button>
+  <p>¿No tenés cuenta? <a routerLink="/registro">Registrate</a></p>
+</form>

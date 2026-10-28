@@ -1,0 +1,24 @@
+@if (auth.usuario(); as u) {
+  <section class="card">
+    @if (u.imagenPerfil) {
+      <img class="foto" [src]="u.imagenPerfil" alt="Foto de perfil">
+    }
+    <h1>{{ u.nombre }} {{ u.apellido }}</h1>
+    <p class="sub">&#64;{{ u.nombreUsuario }}</p>
+
+    <p><b>Correo:</b> {{ u.correo }}</p>
+    <p><b>Nacimiento:</b> {{ u.fechaNacimiento | date:'dd/MM/yyyy':'UTC' }}</p>
+    <p><b>Perfil:</b> {{ u.perfil }}</p>
+    <p><b>Leyendo:</b> {{ u.descripcion || 'Sin descripción' }}</p>
+  </section>
+
+  <section class="card">
+    <h2>Mis últimas reseñas</h2>
+    <p>Todavía no hay reseñas para mostrar.</p>
+  </section>
+} @else {
+  <section class="card">
+    <p>Tenés que ingresar para ver tu estantería.</p>
+    <a routerLink="/login">Ir al login</a>
+  </section>
+}

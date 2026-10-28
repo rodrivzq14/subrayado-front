@@ -1,0 +1,33 @@
+<form class="card" [formGroup]="form" (ngSubmit)="enviar()">
+  <h1>Creá tu <span class="sub">cuenta</span></h1>
+
+  <label>Nombre <input formControlName="nombre"></label>
+  @if (invalido('nombre')) { <span class="error">El nombre es obligatorio</span> }
+
+  <label>Apellido <input formControlName="apellido"></label>
+  @if (invalido('apellido')) { <span class="error">El apellido es obligatorio</span> }
+
+  <label>Correo <input type="email" formControlName="correo"></label>
+  @if (invalido('correo')) { <span class="error">Ingresá un correo válido</span> }
+
+  <label>Nombre de usuario <input formControlName="nombreUsuario"></label>
+  @if (invalido('nombreUsuario')) { <span class="error">Mínimo 3 caracteres</span> }
+
+  <label>Contraseña <input type="password" formControlName="password"></label>
+  @if (invalido('password')) { <span class="error">Mínimo 8 caracteres, una mayúscula y un número</span> }
+
+  <label>Repetir contraseña <input type="password" formControlName="repetir"></label>
+  @if (form.hasError('noCoinciden') && form.get('repetir')?.touched) {
+    <span class="error">Las contraseñas no coinciden</span>
+  }
+
+  <label>Fecha de nacimiento <input type="date" formControlName="fechaNacimiento"></label>
+  @if (invalido('fechaNacimiento')) { <span class="error">Ingresá tu fecha de nacimiento</span> }
+
+  <label>Contanos qué estás leyendo <textarea rows="3" formControlName="descripcion"></textarea></label>
+
+  <label>Foto de perfil <input type="file" accept="image/*" (change)="onFile($event)"></label>
+
+  <button [disabled]="form.invalid">Registrarme</button>
+  <p>¿Ya tenés cuenta? <a routerLink="/login">Ingresá</a></p>
+</form>

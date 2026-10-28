@@ -1,1 +1,11 @@
-/* You can add global styles to this file, and also import other style files */
+:root { --bg:#F5EFE6; --tinta:#3B2A20; --verde:#2F5D50; --oro:#C8963E; --vino:#7A2E3A; }
+body { margin:0; background:var(--bg); color:var(--tinta); font:16px Inter,sans-serif; }
+h1,h2,.logo { font-family:'Playfair Display',serif; }
+.card { max-width:440px; margin:2rem auto; padding:1.5rem; background:#fff; border:1px solid #0002; border-radius:8px; }
+label { display:block; margin-top:.8rem; font-size:.9rem; }
+input,textarea { width:100%; padding:.5rem; border:1px solid #0003; border-radius:4px; box-sizing:border-box; font:inherit; }
+button { margin-top:1rem; padding:.6rem 1.2rem; background:var(--verde); color:#fff; border:0; border-radius:4px; cursor:pointer; }
+button:disabled { opacity:.5; cursor:default; }
+.error { color:var(--vino); font-size:.8rem; }
+.sub { border-bottom:3px solid var(--oro); }
+.foto { width:96px; height:96px; border-radius:50%; object-fit:cover; }
