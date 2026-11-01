@@ -12,6 +12,7 @@ const iguales = (g: AbstractControl) =>
   selector: 'app-registro',
   imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './registro.html',
+  styleUrl: './registro.css',
 })
 export class Registro {
   private fb = inject(FormBuilder);
@@ -19,6 +20,7 @@ export class Registro {
   private modal = inject(ModalService);
   private router = inject(Router);
   imagen?: File;
+  vista = "";
 
   form = this.fb.nonNullable.group({
     nombre: ['', Validators.required],
@@ -38,6 +40,7 @@ export class Registro {
 
   onFile(e: Event) {
     this.imagen = (e.target as HTMLInputElement).files?.[0];
+    this.vista = this.imagen ? URL.createObjectURL(this.imagen) : '';
   }
 
   enviar() {
@@ -49,12 +52,12 @@ export class Registro {
 
     this.auth.registro(fd).subscribe({
       next: () => {
-        this.modal.abrir('¡Bienvenido a Subrayado!', 'Tu cuenta fue creada. Ya podés ingresar.');
+        this.modal.abrir('¡Bienvenido a Subrayado!', 'Tu cuenta fue creada. Ya podés ingresar.', 'exito');
         this.router.navigate(['/login']);
       },
       error: (e) => {
         const m = e.error?.message;
-        this.modal.abrir('No pudimos registrarte', Array.isArray(m) ? m.join('. ') : m ?? 'Error de conexión');
+        this.modal.abrir('No pudimos registrarte', Array.isArray(m) ? m.join('. ') : m ?? 'Error de conexión', 'error');
       },
     });
   }

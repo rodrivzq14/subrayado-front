@@ -1,0 +1,9 @@
+.fondo { position:fixed; inset:0; z-index:100; display:grid; place-items:center; padding:1rem; background:#3B2A2099; }
+.ventana { width:min(420px,100%); padding:1.75rem; background:var(--superficie); border-radius:var(--radio-tarjeta); animation:entrada .18s ease-out; }
+.icono { display:grid; place-items:center; width:40px; height:40px; margin-bottom:1rem; border-radius:50%; background:var(--verde); color:#fff; font-weight:700; }
+.ventana[data-tipo=error] .icono { background:var(--vino); }
+.ventana[data-tipo=info] .icono { background:var(--oro); }
+.ventana p { margin:0; color:var(--tinta-suave); }
+.acciones-modal { display:flex; justify-content:flex-end; margin-top:1.5rem; }
+@keyframes entrada { from { opacity:0; transform:scale(.96); } }
+@media (prefers-reduced-motion:reduce) { .ventana { animation:none; } }

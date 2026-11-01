@@ -1,13 +1,21 @@
-<nav style="display:flex;gap:1rem;padding:1rem 2rem;align-items:center">
-  <a routerLink="/publicaciones" class="logo sub" style="font-size:1.4rem;color:inherit;text-decoration:none">Subrayado</a>
-  <a routerLink="/publicaciones">Reseñas</a>
-  <a routerLink="/mi-perfil">Mi estantería</a>
-  @if (auth.usuario(); as u) {
-    <span style="margin-left:auto">Hola, {{ u.nombreUsuario }}</span>
-    <button style="margin:0" (click)="salir()">Cerrar sesión</button>
-  } @else {
-    <a routerLink="/login" style="margin-left:auto">Ingresar</a>
-  }
-</nav>
+<header class="barra">
+  <div class="barra-in">
+    <a [routerLink]="auth.usuario() ? '/publicaciones' : '/login'" class="logo">Subrayado</a>
+    <nav>
+      <a routerLink="/publicaciones" routerLinkActive="activo">Reseñas</a>
+      <a routerLink="/mi-perfil" routerLinkActive="activo">Mi estantería</a>
+    </nav>
+    <div class="sesion">
+      @if (auth.usuario(); as u) {
+        @if (u.imagenPerfil) { <img class="avatar" [src]="u.imagenPerfil" alt=""> }
+        <span>{{ u.nombreUsuario }}</span>
+        <button class="sec" (click)="salir()">Cerrar sesión</button>
+      } @else {
+        <a routerLink="/login">Ingresar</a>
+        <a routerLink="/registro">Registrarse</a>
+      }
+    </div>
+  </div>
+</header>
 <router-outlet />
 <app-modal />

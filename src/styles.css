@@ -1,11 +1,50 @@
-:root { --bg:#F5EFE6; --tinta:#3B2A20; --verde:#2F5D50; --oro:#C8963E; --vino:#7A2E3A; }
-body { margin:0; background:var(--bg); color:var(--tinta); font:16px Inter,sans-serif; }
-h1,h2,.logo { font-family:'Playfair Display',serif; }
-.card { max-width:440px; margin:2rem auto; padding:1.5rem; background:#fff; border:1px solid #0002; border-radius:8px; }
-label { display:block; margin-top:.8rem; font-size:.9rem; }
-input,textarea { width:100%; padding:.5rem; border:1px solid #0003; border-radius:4px; box-sizing:border-box; font:inherit; }
-button { margin-top:1rem; padding:.6rem 1.2rem; background:var(--verde); color:#fff; border:0; border-radius:4px; cursor:pointer; }
+:root {
+  --bg:#F5EFE6; --superficie:#FFFBF4; --tinta:#3B2A20; --tinta-suave:#3B2A20b3;
+  --verde:#2F5D50; --verde-oscuro:#244A40; --oro:#C8963E; --vino:#7A2E3A;
+  --linea:#3B2A2026; --radio-campo:6px; --radio-tarjeta:14px; --alto-barra:64px;
+}
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--tinta); font:16px/1.5 Inter,sans-serif; }
+h1,h2,.logo { font-family:'Playfair Display',serif; line-height:1.2; margin:0 0 .5rem; }
+a { color:var(--verde); }
+:focus-visible { outline:2px solid var(--oro); outline-offset:2px; }
+router-outlet + * { display:block; }
+
+/* Superficies y textos */
+.card { max-width:560px; margin:2rem auto; padding:1.5rem; background:var(--superficie); border:1px solid var(--linea); border-radius:var(--radio-tarjeta); }
+.bajada { margin:0 0 1rem; color:var(--tinta-suave); }
+.pie { margin-top:1.25rem; font-size:.9rem; color:var(--tinta-suave); }
+
+/* Formularios */
+.campo { margin-top:1rem; }
+label { display:block; font-size:.9rem; font-weight:500; }
+input,textarea { width:100%; margin-top:.3rem; padding:.6rem .75rem; background:#fff; border:1px solid #3B2A2040; border-radius:var(--radio-campo); font:inherit; color:inherit; }
+textarea { resize:vertical; }
+input:focus,textarea:focus { outline:0; border-color:var(--verde); box-shadow:0 0 0 3px #2F5D5026; }
+input.ng-invalid.ng-touched,textarea.ng-invalid.ng-touched,input.invalido { border-color:var(--vino); }
+input[type=file]::file-selector-button { margin-right:.75rem; padding:.35rem .8rem; background:transparent; border:1px solid var(--verde); border-radius:var(--radio-campo); color:var(--verde); font:inherit; cursor:pointer; }
+.error { display:block; margin-top:.25rem; font-size:.8rem; color:var(--vino); }
+
+/* Botones */
+button { padding:.65rem 1.3rem; background:var(--verde); color:#fff; border:1px solid var(--verde); border-radius:var(--radio-campo); font:inherit; font-weight:500; cursor:pointer; transition:background .15s; }
+button:hover:not(:disabled) { background:var(--verde-oscuro); }
 button:disabled { opacity:.5; cursor:default; }
-.error { color:var(--vino); font-size:.8rem; }
-.sub { border-bottom:3px solid var(--oro); }
-.foto { width:96px; height:96px; border-radius:50%; object-fit:cover; }
+button.sec { background:transparent; color:var(--verde); }
+button.sec:hover:not(:disabled) { background:#2F5D5014; }
+button.completo { width:100%; margin-top:1.5rem; }
+
+/* Pantallas de Login y Registro */
+.auth { display:grid; grid-template-columns:5fr 6fr; min-height:calc(100vh - var(--alto-barra)); }
+.auth-marca { position:sticky; top:0; height:calc(100vh - var(--alto-barra)); display:flex; flex-direction:column; justify-content:center; padding:3rem; background:var(--verde); color:var(--bg); }
+.auth-marca p { max-width:30ch; margin:0; opacity:.85; }
+.auth-marca .lema { align-self:flex-start; max-width:none; margin-bottom:1.5rem; padding-bottom:.5rem; border-bottom:4px solid var(--oro); font:700 clamp(2rem,3.6vw,3rem)/1.15 'Playfair Display',serif; opacity:1; }
+.auth-form { display:flex; justify-content:center; padding:2.5rem 1.5rem; }
+.auth-form form { width:100%; max-width:440px; }
+@media (max-width:800px) {
+  .auth { grid-template-columns:1fr; }
+  .auth-marca { position:static; height:auto; padding:1.5rem; }
+
+  /* Contenedor de páginas internas */
+.pagina { max-width:760px; margin:2rem auto; padding:0 1.5rem; }
+.pagina h1 { margin-bottom:.25rem; }
+}

@@ -1,0 +1,14 @@
+.contenedor { max-width:760px; margin:2rem auto; padding:0 1.5rem; }
+.cabecera { display:flex; align-items:center; gap:1.5rem; padding-bottom:1.5rem; border-bottom:1px solid var(--linea); }
+.foto { flex:none; width:120px; height:120px; border-radius:50%; object-fit:cover; }
+.foto.vacia { display:flex; align-items:center; justify-content:center; padding-bottom:.14em; background:var(--verde); color:var(--bg); font:700 3rem/1 'Playfair Display',serif; }
+.usuario { margin:0; color:var(--verde); font-weight:500; }
+.bio { max-width:55ch; margin:.75rem 0 0; }
+.bloque { margin-top:2rem; }
+.datos { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1rem 1.5rem; margin:1rem 0 0; }
+.datos dt { font-size:.85rem; color:var(--tinta-suave); }
+.datos dd { margin:.1rem 0 0; font-weight:500; overflow-wrap:anywhere; }
+.datos .ancho { grid-column:1 / -1; }
+.vacio { margin-top:1rem; padding:2rem 1.5rem; text-align:center; color:var(--tinta-suave); border:1px dashed #3B2A2055; border-radius:var(--radio-tarjeta); }
+.vacio strong { display:block; color:var(--tinta); }
+@media (max-width:560px) { .cabecera { flex-direction:column; text-align:center; } }

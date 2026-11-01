@@ -1,24 +1,40 @@
 @if (auth.usuario(); as u) {
-  <section class="card">
-    @if (u.imagenPerfil) {
-      <img class="foto" [src]="u.imagenPerfil" alt="Foto de perfil">
-    }
-    <h1>{{ u.nombre }} {{ u.apellido }}</h1>
-    <p class="sub">&#64;{{ u.nombreUsuario }}</p>
+  <main class="contenedor ">
+    <section class="cabecera">
+      @if (u.imagenPerfil) {
+        <img class="foto" [src]="u.imagenPerfil" alt="Foto de perfil">
+      } @else {
+        <div class="foto vacia">{{ u.nombre.charAt(0).toUpperCase() }}</div>
+      }
+      <div>
+        <h1>{{ u.nombre }} {{ u.apellido }}</h1>
+        <p class="usuario">&#64;{{ u.nombreUsuario }}</p>
+        <p class="bio">{{ u.descripcion || 'Todavía no contaste qué estás leyendo.' }}</p>
+      </div>
+    </section>
 
-    <p><b>Correo:</b> {{ u.correo }}</p>
-    <p><b>Nacimiento:</b> {{ u.fechaNacimiento | date:'dd/MM/yyyy':'UTC' }}</p>
-    <p><b>Perfil:</b> {{ u.perfil }}</p>
-    <p><b>Leyendo:</b> {{ u.descripcion || 'Sin descripción' }}</p>
-  </section>
+    <section class="bloque">
+      <h2>Mis datos</h2>
+      <dl class="datos">
+        <div class="ancho"><dt>Correo</dt><dd>{{ u.correo }}</dd></div>
+        <div><dt>Nacimiento</dt><dd>{{ u.fechaNacimiento | date:'dd/MM/yyyy':'UTC' }}</dd></div>
+        <div><dt>Perfil</dt><dd>{{ u.perfil }}</dd></div>
+        <div><dt>Miembro desde</dt><dd>{{ u.createdAt | date:'dd/MM/yyyy' }}</dd></div>
+      </dl>
+    </section>
 
-  <section class="card">
-    <h2>Mis últimas reseñas</h2>
-    <p>Todavía no hay reseñas para mostrar.</p>
-  </section>
+    <section class="bloque">
+      <h2>Mis últimas reseñas</h2>
+      <div class="vacio">
+        <strong>Todavía no publicaste reseñas</strong>
+        Cuando publiques, tus últimas tres aparecen acá.
+      </div>
+    </section>
+  </main>
 } @else {
   <section class="card">
-    <p>Tenés que ingresar para ver tu estantería.</p>
+    <h1>Tu estantería te espera</h1>
+    <p class="bajada">Ingresá para ver tu perfil.</p>
     <a routerLink="/login">Ir al login</a>
   </section>
 }

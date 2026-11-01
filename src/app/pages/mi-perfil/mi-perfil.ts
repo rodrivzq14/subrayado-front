@@ -7,6 +7,7 @@ import { AuthService } from '../../services/auth';
   selector: 'app-mi-perfil',
   imports: [DatePipe, RouterLink],
   templateUrl: './mi-perfil.html',
+  styleUrl: './mi-perfil.css',
 })
 export class MiPerfil {
   auth = inject(AuthService);

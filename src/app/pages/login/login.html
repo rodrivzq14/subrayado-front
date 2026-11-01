@@ -1,12 +1,28 @@
-<form class="card" [formGroup]="form" (ngSubmit)="enviar()">
-  <h1>Volvé a tu <span class="sub">lectura</span></h1>
+<section class="auth">
+  <aside class="auth-marca">
+    <p class="lema">Lo que leés, subrayado.</p>
+    <p>Reseñas, notas al margen y libros para prestar.</p>
+  </aside>
 
-  <label>Correo o nombre de usuario <input formControlName="identificador"></label>
-  @if (invalido('identificador')) { <span class="error">Este campo es obligatorio</span> }
+  <div class="auth-form">
+    <form [formGroup]="form" (ngSubmit)="enviar()">
+      <h1>Volvé a tu lectura</h1>
+      <p class="bajada">Ingresá con tu correo o tu nombre de usuario.</p>
 
-  <label>Contraseña <input type="password" formControlName="password"></label>
-  @if (invalido('password')) { <span class="error">Mínimo 8 caracteres, una mayúscula y un número</span> }
+      <div class="campo">
+        <label for="identificador">Correo o nombre de usuario</label>
+        <input id="identificador" formControlName="identificador">
+        @if (invalido('identificador')) { <span class="error">Este campo es obligatorio</span> }
+      </div>
 
-  <button [disabled]="form.invalid">Ingresar</button>
-  <p>¿No tenés cuenta? <a routerLink="/registro">Registrate</a></p>
-</form>
+      <div class="campo">
+        <label for="password">Contraseña</label>
+        <input id="password" type="password" formControlName="password">
+        @if (invalido('password')) { <span class="error">Mínimo 8 caracteres, una mayúscula y un número</span> }
+      </div>
+
+      <button class="completo" [disabled]="form.invalid">Ingresar</button>
+      <p class="pie">¿No tenés cuenta? <a routerLink="/registro">Registrate</a></p>
+    </form>
+  </div>
+</section>

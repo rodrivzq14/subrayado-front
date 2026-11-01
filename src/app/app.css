@@ -1,0 +1,14 @@
+.barra { background:var(--superficie); border-bottom:1px solid var(--linea); }
+.barra-in { display:flex; align-items:center; gap:2rem; max-width:1100px; height:var(--alto-barra); margin:0 auto; padding:0 1.5rem; }
+.logo { margin:0; color:var(--tinta); font-size:1.5rem; font-weight:700; line-height:1.1; text-decoration:none; border-bottom:3px solid var(--oro); }
+nav { display:flex; gap:1.5rem; }
+nav a { padding:.3rem 0; color:var(--tinta); text-decoration:none; border-bottom:2px solid transparent; }
+nav a:hover { color:var(--verde); }
+nav a.activo { border-color:var(--oro); }
+.sesion { display:flex; align-items:center; gap:.75rem; margin-left:auto; }
+.sesion a { font-weight:500; text-decoration:none; }
+.avatar { width:34px; height:34px; border-radius:50%; object-fit:cover; }
+@media (max-width:640px) {
+  .barra-in { gap:1rem; padding:0 1rem; }
+  .sesion span { display:none; }
+}
