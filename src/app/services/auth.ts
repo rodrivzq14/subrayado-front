@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject, signal } from '@angular/core';
 import { tap } from 'rxjs';
-
-const API = 'https://subrayado-back.onrender.com';
+import { API } from '../api';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {

@@ -1,0 +1,50 @@
+<div class="fondo" (click)="cerrar.emit()">
+  <form class="ventana" [formGroup]="form" (ngSubmit)="publicar()" (click)="$event.stopPropagation()" role="dialog" aria-modal="true" aria-labelledby="titulo-form">
+    <header class="cabecera">
+      <div>
+        <h2 id="titulo-form">Nueva reseña</h2>
+        <p class="bajada">Contale a los demás lectores qué te pareció.</p>
+      </div>
+      <button type="button" class="sec cerrar" aria-label="Cerrar" (click)="cerrar.emit()">×</button>
+    </header>
+
+    <div class="contenido">
+      <div class="campo">
+        <label for="titulo">Título del libro</label>
+        <input id="titulo" formControlName="titulo">
+        @if (invalido('titulo')) { <span class="error">Ingresá el título del libro</span> }
+      </div>
+
+      <div class="campo">
+        <label for="mensaje">Tu reseña</label>
+        <textarea id="mensaje" rows="5" formControlName="mensaje"></textarea>
+        @if (invalido('mensaje')) { <span class="error">Escribí tu reseña</span> }
+      </div>
+
+      <div class="fila">
+        <div class="campo">
+          <span class="etq" id="etq-calificacion">Calificación (opcional)</span>
+          <div class="estrellas-input" role="group" aria-labelledby="etq-calificacion">
+            @for (n of [1, 2, 3, 4, 5]; track n) {
+              <button type="button" class="estrella" [class.on]="n <= calificacion()"
+                      [attr.aria-label]="n + (n === 1 ? ' estrella' : ' estrellas')" (click)="elegir(n)">★</button>
+            }
+          </div>
+        </div>
+
+        <div class="campo foto-campo">
+          <div class="portada-vista">@if (vista()) { <img [src]="vista()" alt="Vista previa de la portada"> }</div>
+          <div>
+            <label for="imagen">Portada (opcional)</label>
+            <input id="imagen" type="file" accept="image/*" (change)="onFile($event)">
+          </div>
+        </div>
+      </div>
+
+      <div class="acciones-form">
+        <button type="button" class="sec" (click)="cerrar.emit()">Cancelar</button>
+        <button [disabled]="form.invalid || enviando()">Publicar</button>
+      </div>
+    </div>
+  </form>
+</div>

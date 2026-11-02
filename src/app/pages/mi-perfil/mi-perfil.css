@@ -9,6 +9,4 @@
 .datos dt { font-size:.85rem; color:var(--tinta-suave); }
 .datos dd { margin:.1rem 0 0; font-weight:500; overflow-wrap:anywhere; }
 .datos .ancho { grid-column:1 / -1; }
-.vacio { margin-top:1rem; padding:2rem 1.5rem; text-align:center; color:var(--tinta-suave); border:1px dashed #3B2A2055; border-radius:var(--radio-tarjeta); }
-.vacio strong { display:block; color:var(--tinta); }
 @media (max-width:560px) { .cabecera { flex-direction:column; text-align:center; } }

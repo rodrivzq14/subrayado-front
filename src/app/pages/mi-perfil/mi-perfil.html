@@ -25,11 +25,19 @@
 
     <section class="bloque">
       <h2>Mis últimas reseñas</h2>
-      <div class="vacio">
-        <strong>Todavía no publicaste reseñas</strong>
-        Cuando publiques, tus últimas tres aparecen acá.
-      </div>
-    </section>
+      @if (cargando()) {
+        <p class="bajada">Cargando…</p>
+      } @else if (resenas().length) {
+        @for (r of resenas(); track r._id) {
+          <app-resena [resena]="r" (eliminada)="quitar($event)" />
+        }
+    } @else {
+    <div class="vacio">
+      <strong>Todavía no publicaste reseñas</strong>
+      Cuando publiques, tus últimas tres aparecen acá.
+          </div>
+        }
+      </section>
   </main>
 } @else {
   <section class="card">

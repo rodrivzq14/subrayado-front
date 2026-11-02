@@ -1,10 +1,26 @@
 @if (modal.datos(); as d) {
   <div class="fondo" (click)="modal.cerrar()">
-    <div class="ventana" role="dialog" aria-modal="true" [attr.data-tipo]="d.tipo" (click)="$event.stopPropagation()">
-      <span class="icono">{{ d.tipo === 'exito' ? '✓' : d.tipo === 'error' ? '!' : 'i' }}</span>
-      <h2>{{ d.titulo }}</h2>
-      <p>{{ d.texto }}</p>
-      <div class="acciones-modal"><button (click)="modal.cerrar()">Entendido</button></div>
+    <div class="ventana" role="dialog" aria-modal="true" aria-labelledby="titulo-modal"
+         [attr.data-tipo]="d.tipo" (click)="$event.stopPropagation()">
+      <header class="cabecera">
+        <div class="titulo">
+          <span class="icono">{{ d.confirmar ? '?' : d.tipo === 'exito' ? '✓' : d.tipo === 'error' ? '!' : 'i' }}</span>
+          <h2 id="titulo-modal">{{ d.titulo }}</h2>
+        </div>
+        <button type="button" class="sec cerrar" aria-label="Cerrar" (click)="modal.cerrar()">×</button>
+      </header>
+
+      <div class="contenido">
+        <p>{{ d.texto }}</p>
+        <div class="acciones-modal">
+          @if (d.confirmar) {
+            <button class="sec" (click)="modal.cerrar(false)">Cancelar</button>
+            <button (click)="modal.cerrar(true)">{{ d.boton }}</button>
+          } @else {
+            <button (click)="modal.cerrar()">{{ d.boton }}</button>
+          }
+        </div>
+      </div>
     </div>
   </div>
 }

@@ -4,13 +4,15 @@ Aplicación web de **Subrayado**, una red social para lectores donde se publican
 
 - **Back:** https://github.com/rodrivzq14/subrayado-back
 - **App desplegada:** https://subrayado-vazquez.netlify.app
-- **API desplegada:** https://subrayado-back.onrender.com/
+- **API desplegada:** https://subrayado-back.onrender.com
+
+> La API está en el plan gratuito de Render, que duerme el servicio tras un rato sin uso. La primera petición puede tardar hasta un minuto.
 
 ## Tecnologías
 
 - Angular (componentes standalone, signals y formularios reactivos)
 - Angular Router
-- HttpClient
+- HttpClient con un interceptor que envía el token
 - CSS propio, sin librerías de UI
 
 ## Requisitos
@@ -25,9 +27,10 @@ Aplicación web de **Subrayado**, una red social para lectores donde se publican
 git clone https://github.com/rodrivzq14/subrayado-front.git
 cd subrayado-front
 npm install
+ng serve -o
 ```
 
-El front apunta al back desplegado en render. Para usar un back local, cambiá la constante API en src/app/services/auth.ts por http://localhost:3000.
+La URL de la API se define en `src/app/api.ts`: con `ng serve` (modo desarrollo) apunta a `http://localhost:3000`, y en el build de producción apunta al back desplegado en Render. Para probar en local hay que tener el back corriendo.
 
 ## Scripts
 
@@ -36,29 +39,47 @@ El front apunta al back desplegado en render. Para usar un back local, cambiá l
 | `ng serve -o` | Servidor de desarrollo en `http://localhost:4200` |
 | `ng build` | Build de producción en `dist/` |
 
-## Pantallas (Sprint 1)
+## Pantallas
 
 | Ruta | Pantalla | Descripción |
 |---|---|---|
-| `/registro` | Registro | Formulario con validaciones, foto de perfil y repetir contraseña |
+| `/registro` | Registro | Formulario con validaciones, foto de perfil con vista previa y repetir contraseña |
 | `/login` | Login | Ingreso con correo o nombre de usuario |
-| `/publicaciones` | Reseñas | Se completa en el Sprint 2 |
-| `/mi-perfil` | Mi estantería | Datos y foto del usuario logueado |
+| `/publicaciones` | Reseñas | Listado con orden, paginación, me gusta y alta de reseñas |
+| `/mi-perfil` | Mi estantería | Datos y foto del usuario, y sus últimas 3 reseñas |
 
-## Características
+## Funcionalidades
 
+**Reseñas**
+- Cada reseña es un componente (`app-resena`) con portada, título, autor, fecha, calificación y texto.
+- Se puede ordenar por más recientes o por más recomendadas.
+- Paginación de 5 reseñas por página, usando `offset` y `limit` del back.
+- Botón Recomendar: da y quita el me gusta, y actualiza el contador al instante.
+- Eliminar solo está disponible en las reseñas propias, con un modal de confirmación.
+- Nueva reseña en una ventana modal: título, texto, calificación de 1 a 5 estrellas y portada opcional con vista previa.
+
+**Sesión y validaciones**
 - Validaciones con mensajes por campo. La contraseña requiere 8 caracteres, una mayúscula y un número.
-- Modales en lugar de `alert()`, mediante un servicio central (`ModalService`).
-- Sesión guardada en `localStorage`, con botón de cerrar sesión en la barra de navegación.
-- Favicon propio y paleta de colores uniforme en toda la aplicación.
+- Token y usuario guardados en `localStorage`, con botón de cerrar sesión en la barra.
+- Un interceptor agrega `Authorization: Bearer <token>` a cada petición.
+
+**Interfaz**
+- Modales en lugar de `alert()` y `confirm()`, mediante un servicio central (`ModalService`) con tipos éxito, error e información, y confirmación con Cancelar y Aceptar.
+- Se cierran con la ×, un clic afuera o la tecla Esc.
+- Diseño responsive, favicon propio y paleta uniforme en toda la aplicación.
 
 ## Estructura
 
 ```
 src/app/
-├── components/modal/    modal reutilizable
-├── pages/               registro, login, publicaciones, mi-perfil
-└── services/            auth y modal
+├── api.ts                  URL de la API (local o producción)
+├── auth.interceptor.ts     agrega el token a las peticiones
+├── components/
+│   ├── modal/              modal de mensajes y confirmación
+│   ├── resena/             tarjeta de una reseña
+│   └── nueva-resena/       formulario para publicar
+├── pages/                  registro, login, publicaciones, mi-perfil
+└── services/               auth, modal y publicaciones
 ```
 
 ## Identidad visual
@@ -71,13 +92,13 @@ src/app/
 | Acento | `#C8963E` |
 | Errores | `#7A2E3A` |
 
-Tipografías: Playfair Display (títulos) e Inter (texto).
+Tipografías: Playfair Display (títulos) e Inter (texto). El subrayado dorado es la firma de la marca: aparece en el logo y en el enlace de la página activa.
 
 ## Deploy (Netlify)
 
 - **Build command:** `ng build`
-- **Carpeta de publicación:** `dist/subrayado-front/browser` (verificar el nombre exacto tras el build)
-- Para que las rutas funcionen al recargar, agregar `public/_redirects` con:
+- **Carpeta de publicación:** `dist/<nombre-del-proyecto>/browser` (verificar el nombre exacto tras el build)
+- Para que las rutas funcionen al recargar, el sitio redirige todo a `index.html`, con el archivo `public/_redirects`:
 
 ```
 /* /index.html 200
@@ -85,4 +106,4 @@ Tipografías: Playfair Display (títulos) e Inter (texto).
 
 ## Autor
 
-Rodrigo Vazquez - Programación IV, 4º cuatrimestre.
+Rodrigo Vazquez - Programación IV.
