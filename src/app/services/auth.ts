@@ -5,9 +5,27 @@ import { tap } from 'rxjs';
 import { API } from '../api';
 import { ModalService } from './modal';
 
-const MINUTO = 60_000;
-const AVISO_A = 10 * MINUTO; // a los 10 minutos se ofrece extender la sesión
-const VENCE_A = 15 * MINUTO; // el token vence a los 15 minutos
+const AVISO = 2 / 3;
+
+const duracionDelToken = (token: string | null) => {
+  try {
+    const base64 = token!.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+    const { iat, exp } = JSON.parse(atob(base64));
+    return (exp - iat) * 1000;
+  } catch {
+    return 0;
+  }
+};
+
+const duracion = (ms: number) => {
+  const total = Math.max(Math.round(ms / 1000), 0);
+  const min = Math.floor(total / 60);
+  const seg = total % 60;
+  const partes = [];
+  if (min) partes.push(`${min} ${min === 1 ? 'minuto' : 'minutos'}`);
+  if (seg || !min) partes.push(`${seg} ${seg === 1 ? 'segundo' : 'segundos'}`);
+  return partes.join(' y ');
+};
 
 const leerUsuario = () => {
   try { return JSON.parse(localStorage.getItem('usuario') ?? 'null'); } catch { return null; }
@@ -88,10 +106,12 @@ export class AuthService {
       desde = Date.now();
       localStorage.setItem('sesionDesde', String(desde));
     }
+    const vence = duracionDelToken(this.token());
+    if (!vence) return;
     const falta = (ms: number) => Math.max(desde + ms - Date.now(), 0);
     this.temporizadores = [
-      setTimeout(() => this.avisar(), falta(AVISO_A)),
-      setTimeout(() => this.sesionVencida(), falta(VENCE_A)),
+      setTimeout(() => this.avisar(), falta(vence * AVISO)),
+      setTimeout(() => this.sesionVencida(), falta(vence)),
     ];
   }
 
@@ -101,15 +121,16 @@ export class AuthService {
   }
 
   private async avisar() {
+    const restante = Number(localStorage.getItem('sesionDesde')) + duracionDelToken(this.token()) - Date.now();
     const extender = await this.modal.confirmar(
       'Tu sesión está por vencer',
-      'Quedan 5 minutos de sesión. ¿Querés extenderla?',
+      `Tu sesión vence en ${duracion(restante)}. ¿Querés extenderla?`,
       'Extender sesión',
       'No, gracias',
     );
     if (!extender) return;
     this.refrescar().subscribe({
-      next: () => this.modal.abrir('Sesión extendida', 'Tenés 15 minutos más.', 'exito'),
+      next: () => this.modal.abrir('Sesión extendida', `Tenés ${duracion(duracionDelToken(this.token()))} más.`, 'exito'),
       error: (e) => {
         if (e.status !== 401) this.modal.abrir('No pudimos extender la sesión', 'Probá de nuevo en unos minutos.', 'error');
       },

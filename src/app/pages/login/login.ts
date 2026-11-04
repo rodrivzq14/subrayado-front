@@ -28,7 +28,7 @@ export class Login {
   enviar() {
     if (this.form.invalid) return this.form.markAllAsTouched();
     this.auth.login(this.form.getRawValue()).subscribe({
-      next: () => this.router.navigate(['/publicaciones']),
+      next: () => this.router.navigate(['/cargando']),
       error: (e) => this.modal.abrir('No pudimos ingresar', e.error?.message ?? 'Error de conexión', 'error'),
     });
   }

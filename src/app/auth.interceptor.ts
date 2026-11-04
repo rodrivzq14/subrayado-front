@@ -5,7 +5,6 @@ import { AuthService } from './services/auth';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const auth = inject(AuthService);
-  // Se lee en cada petición: si el token cambió (otra pestaña, o fue alterado), se usa el actual
   const token = localStorage.getItem('token');
   const peticion = token ? req.clone({ setHeaders: { Authorization: `Bearer ${token}` } }) : req;
 
@@ -15,7 +14,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
       const esLogin = req.url.endsWith('/autenticacion/login');
       if (e.status === 401 && !esLogin) {
         auth.sesionVencida();
-        return EMPTY; // la sesión ya se cerró: los componentes no muestran su propio error encima
+        return EMPTY;
       }
       return throwError(() => e);
     }),

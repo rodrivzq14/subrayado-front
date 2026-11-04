@@ -1,7 +1,10 @@
 import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription, switchMap, timer } from 'rxjs';
 import { AuthService } from '../../services/auth';
 import { ModalService } from '../../services/modal';
+
+const DEMORA = 1500;
 
 @Component({
   selector: 'app-cargando',
@@ -15,6 +18,7 @@ export class Cargando implements OnInit, OnDestroy {
 
   lento = signal(false);
   private espera?: ReturnType<typeof setTimeout>;
+  private validacion?: Subscription;
 
   ngOnInit() {
     if (!this.auth.token()) {
@@ -25,7 +29,7 @@ export class Cargando implements OnInit, OnDestroy {
     // El servidor gratuito puede estar dormido: si tarda, se lo avisamos al usuario
     this.espera = setTimeout(() => this.lento.set(true), 4000);
 
-    this.auth.autorizar().subscribe({
+    this.validacion = timer(DEMORA).pipe(switchMap(() => this.auth.autorizar())).subscribe({
       next: () => this.router.navigate(['/publicaciones']),
       error: (e) => {
         if (e.status === 401) return; // el interceptor ya cerró la sesión y llevó al login
@@ -36,5 +40,8 @@ export class Cargando implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy() { clearTimeout(this.espera); }
+  ngOnDestroy() {
+    clearTimeout(this.espera);
+    this.validacion?.unsubscribe();
+  }
 }

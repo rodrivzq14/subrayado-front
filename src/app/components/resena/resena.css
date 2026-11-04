@@ -1,16 +1,13 @@
 :host { display:block; }
 
-/* Tarjeta: portada a la izquierda, texto a la derecha */
 .resena { display:grid; grid-template-columns:120px 1fr; gap:1.5rem; margin-top:1.25rem; padding:1.25rem 1.5rem 1.25rem 1.25rem; background:var(--superficie); border:1px solid var(--linea); border-radius:var(--radio-tarjeta); box-shadow:0 1px 2px #3B2A200d; transition:box-shadow .2s, transform .2s; }
 .resena:not(.grande):hover { box-shadow:0 8px 24px #3B2A201a; transform:translateY(-2px); }
 
-/* Portada con forma de libro: lomo marcado y sombra */
 .portada { position:relative; align-self:start; display:grid; place-items:center; aspect-ratio:2 / 3; padding:.75rem; overflow:hidden; background:var(--verde); color:var(--bg); text-align:center; font:700 1rem/1.2 'Playfair Display',serif; border-radius:3px 8px 8px 3px; box-shadow:0 6px 14px #3B2A2033, 0 1px 3px #3B2A2026; }
 .portada::after { content:''; position:absolute; inset:0 auto 0 0; width:8px; background:linear-gradient(90deg, #0000002e, #0000); }
 .portada.con-imagen { padding:0; }
 .portada img { display:block; width:100%; height:100%; object-fit:cover; }
 
-/* Texto */
 .cuerpo { display:flex; flex-direction:column; min-width:0; }
 .cuerpo h1 { margin:0; font-size:clamp(1.6rem, 3.5vw, 2.2rem); }
 .cuerpo h2 { margin:0; font-size:1.35rem; }
@@ -23,10 +20,8 @@
 .estrellas { color:var(--oro); font-size:1rem; letter-spacing:.08em; }
 
 .cuerpo p { margin:0; overflow-wrap:anywhere; white-space:pre-line; }
-/* En la lista, la reseña se corta a 3 líneas; el texto completo está en su página */
 .resena:not(.grande) .cuerpo p { display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:3; line-clamp:3; overflow:hidden; }
 
-/* Acciones al pie de la tarjeta */
 .acciones { display:flex; flex-wrap:wrap; align-items:center; gap:.5rem; margin-top:auto; padding-top:1rem; }
 .acciones button, .boton-sec { padding:.4rem .9rem; font-size:.875rem; }
 .acciones button.activo { background:var(--verde); color:#fff; }
@@ -35,7 +30,6 @@
 .boton-sec { display:inline-block; font-weight:500; text-decoration:none; color:var(--verde); border:1px solid var(--verde); border-radius:var(--radio-campo); }
 .boton-sec:hover { background:#2F5D5014; }
 
-/* Página de la reseña */
 .grande { grid-template-columns:200px 1fr; gap:2rem; padding:1.75rem; }
 .grande .cuerpo p { font-size:1.05rem; line-height:1.65; }
 .grande .meta { margin:.6rem 0 1.25rem; }
