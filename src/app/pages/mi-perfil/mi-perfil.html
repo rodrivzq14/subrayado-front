@@ -24,20 +24,42 @@
     </section>
 
     <section class="bloque">
-      <h2>Mis últimas reseñas</h2>
-      @if (cargando()) {
-        <p class="bajada">Cargando…</p>
-      } @else if (resenas().length) {
-        @for (r of resenas(); track r._id) {
-          <app-resena [resena]="r" (eliminada)="quitar($event)" />
-        }
-    } @else {
+  <h2>Mis últimas reseñas</h2>
+  @if (cargando()) {
+    <p class="bajada">Cargando…</p>
+  } @else if (resenas().length) {
+    @for (r of resenas(); track r._id) {
+      <app-resena [resena]="r" (eliminada)="quitar($event)" />
+
+      @if (notas()[r._id]; as n) {
+        <div class="notas-perfil">
+          <h3>Notas al margen ({{ n.total }})</h3>
+          @for (c of n.items; track c._id) {
+            <article class="nota">
+              <div class="nota-cab">
+                @if (c.autor?.imagenPerfil) { <img class="mini" [src]="c.autor.imagenPerfil" alt=""> }
+                <strong>&#64;{{ c.autor?.nombreUsuario }}</strong>
+                <span>{{ c.createdAt | date:'dd/MM/yyyy HH:mm' }}</span>
+                @if (c.modificado) { <span class="editado">(editado)</span> }
+              </div>
+              <p>{{ c.mensaje }}</p>
+            </article>
+          } @empty {
+            <p class="bajada">Todavía no hay notas en esta reseña.</p>
+          }
+          @if (n.total > n.items.length) {
+            <a [routerLink]="['/publicaciones', r._id]">Ver las {{ n.total }} notas</a>
+          }
+        </div>
+      }
+    }
+  } @else {
     <div class="vacio">
       <strong>Todavía no publicaste reseñas</strong>
       Cuando publiques, tus últimas tres aparecen acá.
-          </div>
-        }
-      </section>
+    </div>
+  }
+</section>
   </main>
 } @else {
   <section class="card">

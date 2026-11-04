@@ -8,6 +8,7 @@ interface DatosModal {
   tipo: TipoModal;
   confirmar: boolean;
   boton: string;
+  cancelar: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -17,14 +18,14 @@ export class ModalService {
 
   abrir(titulo: string, texto: string, tipo: TipoModal = 'info') {
     this.cerrar();
-    this.datos.set({ titulo, texto, tipo, confirmar: false, boton: 'Entendido' });
+    this.datos.set({ titulo, texto, tipo, confirmar: false, boton: 'Entendido', cancelar: '' });
   }
 
-  confirmar(titulo: string, texto: string, boton = 'Confirmar'): Promise<boolean> {
+  confirmar(titulo: string, texto: string, boton = 'Confirmar', cancelar = 'Cancelar'): Promise<boolean> {
     this.cerrar();
     return new Promise((resolver) => {
       this.resolver = resolver;
-      this.datos.set({ titulo, texto, tipo: 'info', confirmar: true, boton });
+      this.datos.set({ titulo, texto, tipo: 'info', confirmar: true, boton, cancelar });
     });
   }
 

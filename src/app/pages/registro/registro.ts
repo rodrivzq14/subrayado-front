@@ -52,8 +52,8 @@ export class Registro {
 
     this.auth.registro(fd).subscribe({
       next: () => {
-        this.modal.abrir('¡Bienvenido a Subrayado!', 'Tu cuenta fue creada. Ya podés ingresar.', 'exito');
-        this.router.navigate(['/login']);
+        this.router.navigate(['/publicaciones']);
+        this.modal.abrir('¡Bienvenido a Subrayado!', 'Tu cuenta fue creada y ya iniciaste sesión.', 'exito');
       },
       error: (e) => {
         const m = e.error?.message;

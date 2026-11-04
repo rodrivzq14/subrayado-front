@@ -1,0 +1,8 @@
+<main class="cargando">
+  <div class="spinner" role="status" aria-label="Cargando"></div>
+  <h1>Subrayado</h1>
+  <p>Verificando tu sesión…</p>
+  @if (lento()) {
+    <p class="aviso">El servidor está despertando, puede tardar hasta un minuto.</p>
+  }
+</main>

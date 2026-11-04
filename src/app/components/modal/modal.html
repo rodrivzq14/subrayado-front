@@ -14,7 +14,7 @@
         <p>{{ d.texto }}</p>
         <div class="acciones-modal">
           @if (d.confirmar) {
-            <button class="sec" (click)="modal.cerrar(false)">Cancelar</button>
+            <button class="sec" (click)="modal.cerrar(false)">{{ d.cancelar }}</button>
             <button (click)="modal.cerrar(true)">{{ d.boton }}</button>
           } @else {
             <button (click)="modal.cerrar()">{{ d.boton }}</button>

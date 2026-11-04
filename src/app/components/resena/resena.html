@@ -1,4 +1,4 @@
-<article class="resena">
+<article class="resena" [class.grande]="detalle">
   <div class="portada" [class.con-imagen]="resena.imagen">
     @if (resena.imagen) {
       <img [src]="resena.imagen" [alt]="'Portada de ' + resena.titulo">
@@ -8,7 +8,12 @@
   </div>
 
   <div class="cuerpo">
-    <h2>{{ resena.titulo }}</h2>
+    @if (detalle) {
+      <h1>{{ resena.titulo }}</h1>
+    } @else {
+      <h2><a [routerLink]="['/publicaciones', resena._id]">{{ resena.titulo }}</a></h2>
+    }
+
     <div class="meta">
       @if (resena.autor?.imagenPerfil) { <img class="mini" [src]="resena.autor.imagenPerfil" alt=""> }
       <span>&#64;{{ resena.autor?.nombreUsuario }}</span>
@@ -22,8 +27,13 @@
 
     <div class="acciones">
       <button class="sec" [class.activo]="leGusto()" [disabled]="enCurso()" (click)="alternarMeGusta()">
-  {{ leGusto() ? 'Recomendaste' : 'Recomendar' }} ({{ cantidad() }})
-</button>
+        {{ leGusto() ? 'Recomendaste' : 'Recomendar' }} ({{ cantidad() }})
+      </button>
+      @if (!detalle) {
+        <a class="boton-sec" [routerLink]="['/publicaciones', resena._id]">
+          Notas al margen ({{ resena.cantidadComentarios ?? 0 }})
+        </a>
+      }
       @if (esMia) { <button class="sec peligro" (click)="eliminar()">Eliminar</button> }
     </div>
   </div>

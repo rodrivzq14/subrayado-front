@@ -9,4 +9,7 @@
 .datos dt { font-size:.85rem; color:var(--tinta-suave); }
 .datos dd { margin:.1rem 0 0; font-weight:500; overflow-wrap:anywhere; }
 .datos .ancho { grid-column:1 / -1; }
+.notas-perfil { margin:.75rem 0 0 1.5rem; padding-left:1rem; border-left:3px solid var(--oro); }
+.notas-perfil h3 { margin:0; font-size:1.05rem; }
+.notas-perfil a { display:inline-block; margin-top:.5rem; font-size:.9rem; }
 @media (max-width:560px) { .cabecera { flex-direction:column; text-align:center; } }

@@ -16,6 +16,7 @@ export class MiPerfil implements OnInit {
   private api = inject(PublicacionesService);
 
   resenas = signal<any[]>([]);
+  notas = signal<Record<string, { items: any[]; total: number }>>({});
   cargando = signal(true);
 
   ngOnInit() {
@@ -25,6 +26,12 @@ export class MiPerfil implements OnInit {
       next: (r) => {
         this.resenas.set(r.items);
         this.cargando.set(false);
+        // Las primeras notas de cada una de mis últimas reseñas
+        r.items.forEach((p: any) =>
+          this.api.listarComentarios(p._id, 0, 3).subscribe((c) =>
+            this.notas.update((m) => ({ ...m, [p._id]: { items: c.items, total: c.total } })),
+          ),
+        );
       },
       error: () => this.cargando.set(false),
     });

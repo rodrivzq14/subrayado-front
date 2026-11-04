@@ -43,12 +43,20 @@ button.completo { width:100%; margin-top:1.5rem; }
 @media (max-width:800px) {
   .auth { grid-template-columns:1fr; }
   .auth-marca { position:static; height:auto; padding:1.5rem; }
+}
 
-  /* Contenedor de páginas internas */
+/* Contenedor de páginas internas */
 .pagina { max-width:760px; margin:2rem auto; padding:0 1.5rem; }
 .pagina h1 { margin-bottom:.25rem; }
 
 /* Estado vacío */
 .vacio { margin-top:1.5rem; padding:2rem 1.5rem; text-align:center; color:var(--tinta-suave); border:1px dashed #3B2A2055; border-radius:var(--radio-tarjeta); }
 .vacio strong { display:block; color:var(--tinta); }
-}
+
+/* Notas al margen (comentarios) */
+.mini { width:22px; height:22px; border-radius:50%; object-fit:cover; }
+.nota { padding:1rem 0; border-top:1px solid var(--linea); }
+.nota-cab { display:flex; flex-wrap:wrap; align-items:center; gap:.4rem .75rem; font-size:.9rem; color:var(--tinta-suave); }
+.nota-cab strong { color:var(--tinta); font-weight:500; }
+.nota p { margin:.4rem 0 0; overflow-wrap:anywhere; white-space:pre-line; }
+.editado { font-size:.8rem; font-style:italic; }

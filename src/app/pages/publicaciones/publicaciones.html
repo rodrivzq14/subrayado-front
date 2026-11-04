@@ -16,7 +16,7 @@
   @if (cargando() && !resenas().length) {
     <p class="vacio">Cargando reseñas…</p>
   } @else if (!resenas().length) {
-    <div class="vacio"><strong>Todavía no hay reseñas</strong>Sé el primero en publicar una.</div>
+    <div class="vacio"><strong>Todavía no hay reseñas: </strong>Sé el primero en publicar una.</div>
   }
 
   @for (r of resenas(); track r._id) {

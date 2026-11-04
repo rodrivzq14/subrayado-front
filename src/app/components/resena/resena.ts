@@ -3,15 +3,17 @@ import { Component, EventEmitter, Input, OnInit, Output, inject, signal } from '
 import { AuthService } from '../../services/auth';
 import { ModalService } from '../../services/modal';
 import { PublicacionesService } from '../../services/publicaciones';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-resena',
-  imports: [DatePipe],
+  imports: [DatePipe, RouterLink],
   templateUrl: './resena.html',
   styleUrl: './resena.css',
 })
 export class Resena implements OnInit {
   @Input({ required: true }) resena!: any;
+  @Input() detalle = false;
   @Output() eliminada = new EventEmitter<string>();
 
   private api = inject(PublicacionesService);

@@ -1,0 +1,8 @@
+:host { display:block; }
+.cargando { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:calc(100vh - var(--alto-barra)); padding:1.5rem; text-align:center; }
+.spinner { width:44px; height:44px; margin-bottom:1.25rem; border:4px solid #3B2A2022; border-top-color:var(--verde); border-radius:50%; animation:girar .9s linear infinite; }
+h1 { margin:0 0 .25rem; }
+p { margin:0; color:var(--tinta-suave); }
+.aviso { margin-top:1rem; font-size:.9rem; }
+@keyframes girar { to { transform:rotate(360deg); } }
+@media (prefers-reduced-motion:reduce) { .spinner { animation-duration:3s; } }

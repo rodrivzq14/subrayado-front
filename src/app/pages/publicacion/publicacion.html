@@ -1,0 +1,63 @@
+<main class="contenedor">
+  <a routerLink="/publicaciones" class="volver">Volver a las reseñas</a>
+
+  @if (cargando()) {
+    <p class="vacio">Cargando reseña…</p>
+  } @else if (resena()) {
+    <app-resena [resena]="resena()" [detalle]="true" (eliminada)="alEliminar()" />
+
+    <section class="notas">
+      <h2>Notas al margen ({{ total() }})</h2>
+
+      <div class="nueva-nota">
+        <label for="nota">Dejá tu nota</label>
+        <textarea id="nota" rows="3" maxlength="500" placeholder="Escribí lo que pensás sobre esta reseña"
+                  [value]="texto()" (input)="texto.set($any($event.target).value)"></textarea>
+        <div class="fila-nota">
+          <small>{{ texto().length }}/500</small>
+          <button [disabled]="!puedeEnviar()" (click)="comentar()">Agregar nota</button>
+        </div>
+      </div>
+
+      @for (c of comentarios(); track c._id) {
+        <article class="nota">
+          <div class="nota-cab">
+            @if (c.autor?.imagenPerfil) { <img class="mini" [src]="c.autor.imagenPerfil" alt=""> }
+            <strong>&#64;{{ c.autor?.nombreUsuario }}</strong>
+            <span>{{ c.createdAt | date:'dd/MM/yyyy HH:mm' }}</span>
+            @if (c.modificado) { <span class="editado">(editado)</span> }
+          </div>
+
+          @if (editandoId() === c._id) {
+            <textarea rows="3" maxlength="500" aria-label="Editar nota"
+                      [value]="edicion()" (input)="edicion.set($any($event.target).value)"></textarea>
+            <div class="fila-nota">
+              <small>{{ edicion().length }}/500</small>
+              <div class="botones">
+                <button class="sec chico" (click)="cancelarEdicion()">Cancelar</button>
+                <button class="chico" [disabled]="!puedeGuardar()" (click)="guardarEdicion(c)">Guardar</button>
+              </div>
+            </div>
+          } @else {
+            <p>{{ c.mensaje }}</p>
+            @if (esMio(c)) { <button class="sec chico" (click)="empezarEdicion(c)">Editar</button> }
+          }
+        </article>
+      } @empty {
+        @if (!cargandoMas()) {
+          <div class="vacio"><strong>Todavía no hay notas</strong>Sé el primero en dejar una.</div>
+        }
+      }
+
+      @if (quedan() > 0) {
+        <div class="mas">
+          <button class="sec" [disabled]="cargandoMas()" (click)="cargarComentarios()">
+            Cargar más notas ({{ quedan() }})
+          </button>
+        </div>
+      }
+    </section>
+  } @else {
+    <div class="vacio"><strong>Esta reseña no existe</strong>Puede que haya sido eliminada.</div>
+  }
+</main>
