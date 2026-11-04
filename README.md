@@ -43,10 +43,12 @@ La URL de la API se define en `src/app/api.ts`: con `ng serve` (modo desarrollo)
 
 | Ruta | Pantalla | Descripción |
 |---|---|---|
+| `/cargando` | Pantalla de carga | Spinner mientras se valida la sesión con el back |
 | `/registro` | Registro | Formulario con validaciones, foto de perfil con vista previa y repetir contraseña |
 | `/login` | Login | Ingreso con correo o nombre de usuario |
 | `/publicaciones` | Reseñas | Listado con orden, paginación, me gusta y alta de reseñas |
-| `/mi-perfil` | Mi estantería | Datos y foto del usuario, y sus últimas 3 reseñas |
+| `/publicaciones/:id` | Reseña | La reseña en grande con sus notas al margen |
+| `/mi-perfil` | Mi estantería | Datos y foto del usuario, y sus últimas 3 reseñas con sus notas |
 
 ## Funcionalidades
 
@@ -57,11 +59,21 @@ La URL de la API se define en `src/app/api.ts`: con `ng serve` (modo desarrollo)
 - Botón Recomendar: da y quita el me gusta, y actualiza el contador al instante.
 - Eliminar solo está disponible en las reseñas propias, con un modal de confirmación.
 - Nueva reseña en una ventana modal: título, texto, calificación de 1 a 5 estrellas y portada opcional con vista previa.
+- Tocando el título se abre la página de la reseña.
+
+**Notas al margen**
+- En la página de cada reseña se pueden leer y dejar notas de hasta 500 caracteres. La nota nueva aparece arriba y el contador se actualiza.
+- Se muestran de a 5, y "Cargar más notas" suma las siguientes sin perder las anteriores.
+- Las notas propias se pueden editar y quedan marcadas como "(editado)" si cambió el texto.
 
 **Sesión y validaciones**
 - Validaciones con mensajes por campo. La contraseña requiere 8 caracteres, una mayúscula y un número.
 - Token y usuario guardados en `localStorage`, con botón de cerrar sesión en la barra.
 - Un interceptor agrega `Authorization: Bearer <token>` a cada petición.
+- Al abrir la app y después de cada login, una pantalla de carga valida el token con `autorizar`.
+- A los 10 minutos aparece un aviso para extender la sesión, que pide un token nuevo con `refrescar`. Los tiempos se calculan con la duración que trae el token.
+- Si el back responde 401, se cierra la sesión, se vuelve al login y se avisa con un modal.
+- Guards de rutas: sin sesión no se puede entrar a las pantallas privadas, y con sesión `/login` y `/registro` llevan a Reseñas.
 
 **Interfaz**
 - Modales en lugar de `alert()` y `confirm()`, mediante un servicio central (`ModalService`) con tipos éxito, error e información, y confirmación con Cancelar y Aceptar.
@@ -74,11 +86,12 @@ La URL de la API se define en `src/app/api.ts`: con `ng serve` (modo desarrollo)
 src/app/
 ├── api.ts                  URL de la API (local o producción)
 ├── auth.interceptor.ts     agrega el token a las peticiones
+├── guards.ts               guards de pantallas privadas y de invitados
 ├── components/
 │   ├── modal/              modal de mensajes y confirmación
 │   ├── resena/             tarjeta de una reseña
 │   └── nueva-resena/       formulario para publicar
-├── pages/                  registro, login, publicaciones, mi-perfil
+├── pages/                  cargando, registro, login, publicaciones, publicacion, mi-perfil
 └── services/               auth, modal y publicaciones
 ```
 
