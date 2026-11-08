@@ -57,12 +57,14 @@ export class Publicacion implements OnInit {
   }
 
   // Se usa para la primera carga y para "Cargar más": agrega sin quitar las anteriores
-  cargarComentarios() {
+  cargarComentarios(reiniciar = false) {
     this.cargandoMas.set(true);
-    this.api.listarComentarios(this.id, this.comentarios().length, POR_CARGA).subscribe({
+    const offset = reiniciar ? 0 : this.comentarios().length;
+    this.api.listarComentarios(this.id, offset, POR_CARGA).subscribe({
       next: (r) => {
         const existentes = new Set(this.comentarios().map((c) => c._id));
-        this.comentarios.update((l) => [...l, ...r.items.filter((c: any) => !existentes.has(c._id))]);
+        if (reiniciar) this.comentarios.set(r.items);
+        else this.comentarios.update((l) => [...l, ...r.items.filter((c: any) => !existentes.has(c._id))]);
         this.total.set(r.total);
         this.cargandoMas.set(false);
       },
@@ -77,11 +79,10 @@ export class Publicacion implements OnInit {
     if (!this.puedeEnviar()) return;
     this.enviando.set(true);
     this.api.comentar(this.id, this.texto().trim()).subscribe({
-      next: (nuevo) => {
-        this.comentarios.update((l) => [nuevo, ...l]);
-        this.total.update((t) => t + 1);
+      next: () => {
         this.texto.set('');
         this.enviando.set(false);
+        this.cargarComentarios(true);
       },
       error: (e) => {
         this.enviando.set(false);

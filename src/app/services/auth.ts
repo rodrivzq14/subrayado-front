@@ -81,7 +81,7 @@ export class AuthService {
     this.validada.set(false);
   }
 
-  // Lo llama el interceptor ante un 401 y el temporizador cuando el token ya venció
+  // Lo llama el interceptor ante un 401
   sesionVencida() {
     if (!this.token()) return;
     this.logout();
@@ -111,8 +111,15 @@ export class AuthService {
     const falta = (ms: number) => Math.max(desde + ms - Date.now(), 0);
     this.temporizadores = [
       setTimeout(() => this.avisar(), falta(vence * AVISO)),
-      setTimeout(() => this.sesionVencida(), falta(vence)),
+      setTimeout(() => this.verificarVencimiento(), falta(vence) + 1000),
     ];
+  }
+
+  private verificarVencimiento() {
+    this.http.post(`${API}/autenticacion/autorizar`, {}).subscribe({
+      next: () => this.temporizadores.push(setTimeout(() => this.verificarVencimiento(), 2000)),
+      error: () => this.sesionVencida(),
+    });
   }
 
   private limpiarTemporizadores() {
