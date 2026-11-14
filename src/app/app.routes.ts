@@ -1,6 +1,9 @@
 import { Routes } from '@angular/router';
-import { authGuard, invitadoGuard } from './guards';
+import { adminGuard, authGuard, invitadoGuard } from './guards';
 import { Cargando } from './pages/cargando/cargando';
+import { Dashboard } from './pages/dashboard/dashboard';
+import { DashboardUsuarios } from './pages/dashboard/usuarios/usuarios';
+import { EditarPerfil } from './pages/editar-perfil/editar-perfil';
 import { Login } from './pages/login/login';
 import { MiPerfil } from './pages/mi-perfil/mi-perfil';
 import { Publicacion } from './pages/publicacion/publicacion';
@@ -14,6 +17,20 @@ export const routes: Routes = [
   { path: 'publicaciones', component: Publicaciones, canActivate: [authGuard] },
   { path: 'publicaciones/:id', component: Publicacion, canActivate: [authGuard] },
   { path: 'mi-perfil', component: MiPerfil, canActivate: [authGuard] },
+  { path: 'mi-perfil/editar', component: EditarPerfil, canActivate: [authGuard] },
+  {
+    path: 'dashboard',
+    component: Dashboard,
+    canActivate: [adminGuard],
+    children: [
+      { path: 'usuarios', component: DashboardUsuarios },
+      {
+        path: 'estadisticas',
+        loadComponent: () => import('./pages/dashboard/estadisticas/estadisticas').then((m) => m.DashboardEstadisticas),
+      },
+      { path: '', redirectTo: 'usuarios', pathMatch: 'full' },
+    ],
+  },
   { path: '', redirectTo: 'cargando', pathMatch: 'full' },
   { path: '**', redirectTo: 'cargando' },
 ];

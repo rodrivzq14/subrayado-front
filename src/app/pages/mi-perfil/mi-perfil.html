@@ -2,7 +2,7 @@
   <main class="contenedor ">
     <section class="cabecera">
       @if (u.imagenPerfil) {
-        <img class="foto" [src]="u.imagenPerfil" alt="Foto de perfil">
+        <img appImagenRespaldo class="foto" [src]="u.imagenPerfil" alt="Foto de perfil">
       } @else {
         <div class="foto vacia">{{ u.nombre.charAt(0).toUpperCase() }}</div>
       }
@@ -10,6 +10,7 @@
         <h1>{{ u.nombre }} {{ u.apellido }}</h1>
         <p class="usuario">&#64;{{ u.nombreUsuario }}</p>
         <p class="bio">{{ u.descripcion || 'Todavía no contaste qué estás leyendo.' }}</p>
+        <a routerLink="/mi-perfil/editar" class="boton-sec">Editar perfil</a>
       </div>
     </section>
 
@@ -37,9 +38,9 @@
           @for (c of n.items; track c._id) {
             <article class="nota">
               <div class="nota-cab">
-                @if (c.autor?.imagenPerfil) { <img class="mini" [src]="c.autor.imagenPerfil" alt=""> }
+                @if (c.autor?.imagenPerfil) { <img appImagenRespaldo class="mini" [src]="c.autor.imagenPerfil" alt=""> }
                 <strong>&#64;{{ c.autor?.nombreUsuario }}</strong>
-                <span>{{ c.createdAt | date:'dd/MM/yyyy HH:mm' }}</span>
+                <span [title]="c.createdAt | date:'dd/MM/yyyy HH:mm'">{{ c.createdAt | tiempoRelativo }}</span>
                 @if (c.modificado) { <span class="editado">(editado)</span> }
               </div>
               <p>{{ c.mensaje }}</p>

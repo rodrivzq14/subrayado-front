@@ -1,0 +1,51 @@
+<main class="contenedor">
+  <a routerLink="/mi-perfil" class="volver">Volver a mi estantería</a>
+
+  <form class="tarjeta" [formGroup]="form" (ngSubmit)="guardar()">
+    <h1>Editar perfil</h1>
+    <p class="bajada">El correo y el nombre de usuario no se pueden cambiar.</p>
+
+    <div class="foto-campo">
+      <div class="vista">
+        @if (vista()) { <img [src]="vista()" alt="Foto de perfil"> }
+      </div>
+      <div>
+        <label for="imagen">Foto de perfil</label>
+        <input id="imagen" type="file" accept="image/*" (change)="onFile($event)">
+      </div>
+    </div>
+
+    <div class="grilla">
+      <div class="campo">
+        <label for="nombre">Nombre</label>
+        <input id="nombre" formControlName="nombre">
+        @if (invalido('nombre')) { <span class="error">El nombre es obligatorio</span> }
+      </div>
+
+      <div class="campo">
+        <label for="apellido">Apellido</label>
+        <input id="apellido" formControlName="apellido">
+        @if (invalido('apellido')) { <span class="error">El apellido es obligatorio</span> }
+      </div>
+
+      <div class="campo">
+        <label for="fechaNacimiento">Fecha de nacimiento</label>
+        <input id="fechaNacimiento" type="date" [max]="hoy" formControlName="fechaNacimiento">
+        @if (invalido('fechaNacimiento')) {
+          <span class="error">{{ form.controls.fechaNacimiento.hasError('futura') ? 'La fecha no puede ser futura' : 'Ingresá tu fecha de nacimiento' }}</span>
+        }
+      </div>
+
+      <div class="campo ancho">
+        <label for="descripcion">Contanos qué estás leyendo</label>
+        <textarea id="descripcion" rows="3" maxlength="300" formControlName="descripcion"></textarea>
+        <small class="contador">{{ form.controls.descripcion.value.length }}/300</small>
+      </div>
+    </div>
+
+    <div class="acciones">
+      <a routerLink="/mi-perfil" class="boton-sec">Cancelar</a>
+      <button [disabled]="form.invalid || guardando()">Guardar cambios</button>
+    </div>
+  </form>
+</main>

@@ -1,0 +1,56 @@
+<section class="seccion">
+  <div class="cabecera">
+    <div>
+      <h1>Estadísticas</h1>
+      <p class="bajada">Actividad de los lectores en el período elegido.</p>
+    </div>
+  </div>
+
+  <div class="periodo">
+    <div class="atajos" role="group" aria-label="Períodos rápidos">
+      @for (n of atajos; track n) {
+        <button class="sec chico" [class.activo]="atajoActivo() === n" (click)="elegirAtajo(n)">Últimos {{ n }} días</button>
+      }
+    </div>
+    <div class="fechas">
+      <label>Desde <input type="date" [value]="desde()" [max]="hoy" (change)="cambiar('desde', $any($event.target).value)"></label>
+      <label>Hasta <input type="date" [value]="hasta()" [max]="hoy" (change)="cambiar('hasta', $any($event.target).value)"></label>
+    </div>
+  </div>
+  @if (error()) { <p class="error">{{ error() }}</p> }
+
+  <div class="tablero" [class.cargando]="cargando()">
+    <article class="tarjeta">
+      <header>
+        <h2>Reseñas por usuario</h2>
+        <span class="tipo">Barras</span>
+      </header>
+      @if (porUsuario().valores.length) {
+        <app-grafico tipo="bar" nombre="Reseñas" [etiquetas]="porUsuario().etiquetas" [valores]="porUsuario().valores" />
+      } @else {
+        <p class="vacio">No hay reseñas publicadas en este período.</p>
+      }
+    </article>
+
+    <article class="tarjeta">
+      <header>
+        <h2>Comentarios en el período</h2>
+        <span class="tipo">Líneas</span>
+      </header>
+      <p class="total"><strong>{{ totalComentarios() | pluralizar:'comentario' }}</strong> en total</p>
+      <app-grafico tipo="line" nombre="Comentarios por día" [etiquetas]="porDia().etiquetas" [valores]="porDia().valores" />
+    </article>
+
+    <article class="tarjeta ancha">
+      <header>
+        <h2>Comentarios por reseña</h2>
+        <span class="tipo">Torta</span>
+      </header>
+      @if (porPublicacion().valores.length) {
+        <app-grafico tipo="doughnut" nombre="Comentarios" [etiquetas]="porPublicacion().etiquetas" [valores]="porPublicacion().valores" />
+      } @else {
+        <p class="vacio">No hay comentarios en este período.</p>
+      }
+    </article>
+  </div>
+</section>

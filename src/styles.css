@@ -57,6 +57,6 @@ button.completo { width:100%; margin-top:1.5rem; }
 .mini { width:22px; height:22px; border-radius:50%; object-fit:cover; }
 .nota { padding:1rem 0; border-top:1px solid var(--linea); }
 .nota-cab { display:flex; flex-wrap:wrap; align-items:center; gap:.4rem .75rem; font-size:.9rem; color:var(--tinta-suave); }
-.nota-cab strong { color:var(--tinta); font-weight:500; }
+.nota-cab strong { min-width:0; color:var(--tinta); font-weight:500; overflow-wrap:anywhere; }
 .nota p { margin:.4rem 0 0; overflow-wrap:anywhere; white-space:pre-line; }
 .editado { font-size:.8rem; font-style:italic; }

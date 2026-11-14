@@ -1,0 +1,35 @@
+:host { display:block; }
+.seccion { margin-top:1.5rem; }
+.cabecera { display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:1rem; }
+.cabecera h1 { margin:0; }
+.cabecera .bajada { margin:.25rem 0 0; }
+.panel-form { margin-top:1.25rem; padding:1.25rem 1.5rem 1.5rem; background:var(--superficie); border:1px solid var(--linea); border-radius:var(--radio-tarjeta); }
+.panel-form h2 { margin:0; }
+.panel-form .bajada { margin:.25rem 0 0; }
+.buscador { display:flex; align-items:center; gap:.75rem; margin-top:1.5rem; }
+.buscador label { margin:0; }
+.buscador input { max-width:320px; margin:0; }
+.lista { margin:1rem 0 0; padding:0; list-style:none; background:var(--superficie); border:1px solid var(--linea); border-radius:var(--radio-tarjeta); }
+.fila { display:grid; grid-template-columns:44px 1fr auto auto; align-items:center; gap:1rem; padding:.85rem 1.25rem; border-top:1px solid var(--linea); }
+.fila:first-child { border-top:0; }
+.fila.inactivo .foto, .fila.inactivo .datos { opacity:.55; }
+.foto { width:44px; height:44px; border-radius:50%; object-fit:cover; }
+.foto.inicial { display:grid; place-items:center; background:var(--verde); color:var(--bg); font:700 1.1rem 'Playfair Display',serif; }
+.datos { display:flex; flex-direction:column; min-width:0; }
+.datos strong { overflow-wrap:anywhere; }
+.datos span { overflow:hidden; color:var(--tinta-suave); font-size:.875rem; text-overflow:ellipsis; white-space:nowrap; }
+.etiquetas { display:flex; gap:.4rem; }
+.etiqueta { padding:.15rem .6rem; font-size:.8rem; font-weight:500; text-transform:capitalize; color:var(--tinta-suave); background:#3B2A2010; border-radius:999px; }
+.etiqueta.admin { color:#7A5A1E; background:#C8963E2e; }
+.etiqueta.estado { color:var(--verde); background:#2F5D501f; }
+.etiqueta.estado.off { color:var(--vino); background:#7A2E3A1a; }
+.accion { min-width:112px; text-align:right; }
+.chico { padding:.35rem .85rem; font-size:.85rem; }
+button.peligro { color:var(--vino); border-color:#7A2E3A80; }
+button.peligro:hover:not(:disabled) { background:#7A2E3A12; }
+.vos { font-size:.85rem; color:var(--tinta-suave); }
+.lista .vacio { margin:0; border:0; }
+@media (max-width:640px) {
+  .fila { grid-template-columns:44px 1fr; }
+  .etiquetas, .accion { grid-column:2; text-align:left; }
+}

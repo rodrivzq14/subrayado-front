@@ -2,12 +2,14 @@ import { Component, OnInit, inject, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Resena } from '../../components/resena/resena';
+import { ImagenRespaldoDirective } from '../../directives/imagen-respaldo.directive';
+import { TiempoRelativoPipe } from '../../pipes/tiempo-relativo.pipe';
 import { AuthService } from '../../services/auth';
 import { PublicacionesService } from '../../services/publicaciones';
 
 @Component({
   selector: 'app-mi-perfil',
-  imports: [DatePipe, RouterLink, Resena],
+  imports: [DatePipe, RouterLink, Resena, TiempoRelativoPipe, ImagenRespaldoDirective],
   templateUrl: './mi-perfil.html',
   styleUrl: './mi-perfil.css',
 })

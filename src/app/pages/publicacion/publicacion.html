@@ -22,14 +22,14 @@
       @for (c of comentarios(); track c._id) {
         <article class="nota">
           <div class="nota-cab">
-            @if (c.autor?.imagenPerfil) { <img class="mini" [src]="c.autor.imagenPerfil" alt=""> }
+            @if (c.autor?.imagenPerfil) { <img appImagenRespaldo class="mini" [src]="c.autor.imagenPerfil" alt=""> }
             <strong>&#64;{{ c.autor?.nombreUsuario }}</strong>
-            <span>{{ c.createdAt | date:'dd/MM/yyyy HH:mm' }}</span>
+            <span [title]="c.createdAt | date:'dd/MM/yyyy HH:mm'">{{ c.createdAt | tiempoRelativo }}</span>
             @if (c.modificado) { <span class="editado">(editado)</span> }
           </div>
 
           @if (editandoId() === c._id) {
-            <textarea rows="3" maxlength="500" aria-label="Editar nota"
+            <textarea appAutofoco rows="3" maxlength="500" aria-label="Editar nota"
                       [value]="edicion()" (input)="edicion.set($any($event.target).value)"></textarea>
             <div class="fila-nota">
               <small>{{ edicion().length }}/500</small>
@@ -52,7 +52,7 @@
       @if (quedan() > 0) {
         <div class="mas">
           <button class="sec" [disabled]="cargandoMas()" (click)="cargarComentarios()">
-            Cargar más notas ({{ quedan() }})
+            Cargar más notas ({{ quedan() | pluralizar:'restante' }})
           </button>
         </div>
       }

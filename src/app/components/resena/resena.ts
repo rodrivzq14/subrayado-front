@@ -1,13 +1,15 @@
 import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output, inject, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { ImagenRespaldoDirective } from '../../directives/imagen-respaldo.directive';
+import { EstrellasPipe } from '../../pipes/estrellas.pipe';
 import { AuthService } from '../../services/auth';
 import { ModalService } from '../../services/modal';
 import { PublicacionesService } from '../../services/publicaciones';
-import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-resena',
-  imports: [DatePipe, RouterLink],
+  imports: [DatePipe, RouterLink, EstrellasPipe, ImagenRespaldoDirective],
   templateUrl: './resena.html',
   styleUrl: './resena.css',
 })
@@ -31,10 +33,7 @@ export class Resena implements OnInit {
 
   get esMia() { return this.auth.usuario()?._id === this.resena.autor?._id; }
 
-  get estrellas() {
-    const n = this.resena.calificacion ?? 0;
-    return '★'.repeat(n) + '☆'.repeat(5 - n);
-  }
+  get puedeEliminar() { return this.esMia || this.auth.esAdmin(); }
 
   alternarMeGusta() {
     this.enCurso.set(true);
@@ -57,9 +56,9 @@ export class Resena implements OnInit {
 
   async eliminar() {
     const acepto = await this.modal.confirmar(
-      '¿Eliminar esta reseña?',
-      'Va a dejar de estar disponible para los demás lectores.',
-      'Eliminar',
+      this.esMia ? '¿Eliminar esta reseña?' : `¿Dar de baja la reseña de @${this.resena.autor?.nombreUsuario}?`,
+      'Va a dejar de estar disponible para los demás lectores, junto con sus notas.',
+      this.esMia ? 'Eliminar' : 'Dar de baja',
     );
     if (!acepto) return;
 

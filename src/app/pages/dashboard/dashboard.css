@@ -1,0 +1,8 @@
+:host { display:block; }
+.contenedor { max-width:960px; margin:2rem auto; padding:0 1.5rem; }
+.encabezado { display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:1rem; padding-bottom:.75rem; border-bottom:1px solid var(--linea); }
+.sobre { margin:0; font:700 1.6rem/1.2 'Playfair Display',serif; }
+.pestanas { display:flex; gap:.35rem; padding:.25rem; background:var(--superficie); border:1px solid var(--linea); border-radius:999px; }
+.pestanas a { padding:.4rem 1rem; color:var(--tinta); font-weight:500; text-decoration:none; border-radius:999px; }
+.pestanas a:hover { color:var(--verde); }
+.pestanas a.activa { background:var(--verde); color:#fff; }

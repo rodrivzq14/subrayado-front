@@ -1,13 +1,16 @@
 <header class="barra">
   <div class="barra-in">
     <a [routerLink]="auth.usuario() ? '/publicaciones' : '/login'" class="logo">Subrayado</a>
-    <nav>
-      <a routerLink="/publicaciones" routerLinkActive="activo">Reseñas</a>
-      <a routerLink="/mi-perfil" routerLinkActive="activo">Mi estantería</a>
-    </nav>
+    @if (auth.usuario()) {
+      <nav>
+        <a routerLink="/publicaciones" routerLinkActive="activo">Reseñas</a>
+        <a routerLink="/mi-perfil" routerLinkActive="activo" [routerLinkActiveOptions]="{ exact: true }">Mi estantería</a>
+        <a *appSiAdmin routerLink="/dashboard" routerLinkActive="activo">Panel</a>
+      </nav>
+    }
     <div class="sesion">
       @if (auth.usuario(); as u) {
-        @if (u.imagenPerfil) { <img class="avatar" [src]="u.imagenPerfil" alt=""> }
+        @if (u.imagenPerfil) { <img appImagenRespaldo class="avatar" [src]="u.imagenPerfil" alt=""> }
         <span>{{ u.nombreUsuario }}</span>
         <button class="sec" (click)="salir()">Cerrar sesión</button>
       } @else {

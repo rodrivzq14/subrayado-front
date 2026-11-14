@@ -11,7 +11,7 @@
 
       <div class="campo">
         <label for="identificador">Correo o nombre de usuario</label>
-        <input id="identificador" formControlName="identificador">
+        <input appAutofoco id="identificador" formControlName="identificador">
         @if (invalido('identificador')) { <span class="error">Este campo es obligatorio</span> }
       </div>
 

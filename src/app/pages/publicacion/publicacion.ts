@@ -2,6 +2,10 @@ import { DatePipe } from '@angular/common';
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Resena } from '../../components/resena/resena';
+import { AutofocoDirective } from '../../directives/autofoco.directive';
+import { ImagenRespaldoDirective } from '../../directives/imagen-respaldo.directive';
+import { PluralizarPipe } from '../../pipes/pluralizar.pipe';
+import { TiempoRelativoPipe } from '../../pipes/tiempo-relativo.pipe';
 import { AuthService } from '../../services/auth';
 import { ModalService } from '../../services/modal';
 import { PublicacionesService } from '../../services/publicaciones';
@@ -10,7 +14,9 @@ const POR_CARGA = 5;
 
 @Component({
   selector: 'app-publicacion',
-  imports: [DatePipe, RouterLink, Resena],
+  imports: [
+    DatePipe, RouterLink, Resena, TiempoRelativoPipe, PluralizarPipe, AutofocoDirective, ImagenRespaldoDirective,
+  ],
   templateUrl: './publicacion.html',
   styleUrl: './publicacion.css',
 })

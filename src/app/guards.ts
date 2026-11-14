@@ -11,6 +11,14 @@ export const authGuard: CanActivateFn = () => {
   return true;
 };
 
+export const adminGuard: CanActivateFn = () => {
+  const auth = inject(AuthService);
+  const router = inject(Router);
+  if (!auth.token()) return router.createUrlTree(['/login']);
+  if (!auth.validada()) return router.createUrlTree(['/cargando']);
+  return auth.esAdmin() ? true : router.createUrlTree(['/publicaciones']);
+};
+
 // Login y registro: si ya hay sesión, no tiene sentido mostrarlos
 export const invitadoGuard: CanActivateFn = () => {
   const auth = inject(AuthService);

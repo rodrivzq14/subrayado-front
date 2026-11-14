@@ -1,7 +1,7 @@
 <article class="resena" [class.grande]="detalle">
   <div class="portada" [class.con-imagen]="resena.imagen">
     @if (resena.imagen) {
-      <img [src]="resena.imagen" [alt]="'Portada de ' + resena.titulo">
+      <img appImagenRespaldo [src]="resena.imagen" [alt]="'Portada de ' + resena.titulo">
     } @else {
       <span>{{ resena.titulo }}</span>
     }
@@ -15,11 +15,11 @@
     }
 
     <div class="meta">
-      @if (resena.autor?.imagenPerfil) { <img class="mini" [src]="resena.autor.imagenPerfil" alt=""> }
+      @if (resena.autor?.imagenPerfil) { <img appImagenRespaldo class="mini" [src]="resena.autor.imagenPerfil" alt=""> }
       <span>&#64;{{ resena.autor?.nombreUsuario }}</span>
       <span>{{ resena.createdAt | date:'dd/MM/yyyy' }}</span>
       @if (resena.calificacion) {
-        <span class="estrellas" [attr.aria-label]="resena.calificacion + ' de 5 estrellas'">{{ estrellas }}</span>
+        <span class="estrellas" [attr.aria-label]="resena.calificacion + ' de 5 estrellas'">{{ resena.calificacion | estrellas }}</span>
       }
     </div>
 
@@ -34,7 +34,7 @@
           Notas al margen ({{ resena.cantidadComentarios ?? 0 }})
         </a>
       }
-      @if (esMia) { <button class="sec peligro" (click)="eliminar()">Eliminar</button> }
+      @if (puedeEliminar) { <button class="sec peligro" (click)="eliminar()">{{ esMia ? 'Eliminar' : 'Dar de baja' }}</button> }
     </div>
   </div>
 </article>

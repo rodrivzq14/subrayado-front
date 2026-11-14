@@ -13,6 +13,8 @@ Aplicación web de **Subrayado**, una red social para lectores donde se publican
 - Angular (componentes standalone, signals y formularios reactivos)
 - Angular Router
 - HttpClient con un interceptor que envía el token
+- Chart.js para los gráficos de estadísticas
+- `@angular/service-worker` para la PWA
 - CSS propio, sin librerías de UI
 
 ## Requisitos
@@ -49,6 +51,9 @@ La URL de la API se define en `src/app/api.ts`: con `ng serve` (modo desarrollo)
 | `/publicaciones` | Reseñas | Listado con orden, paginación, me gusta y alta de reseñas |
 | `/publicaciones/:id` | Reseña | La reseña en grande con sus notas al margen |
 | `/mi-perfil` | Mi estantería | Datos y foto del usuario, y sus últimas 3 reseñas con sus notas |
+| `/mi-perfil/editar` | Editar perfil | Nombre, apellido, fecha de nacimiento, descripción y foto |
+| `/dashboard/usuarios` | Panel: usuarios | Solo administradores. Listado con buscador, alta de usuarios y habilitar o deshabilitar |
+| `/dashboard/estadisticas` | Panel: estadísticas | Solo administradores. Tres gráficos con período elegible |
 
 ## Funcionalidades
 
@@ -57,7 +62,7 @@ La URL de la API se define en `src/app/api.ts`: con `ng serve` (modo desarrollo)
 - Se puede ordenar por más recientes o por más recomendadas.
 - Paginación de 5 reseñas por página, usando `offset` y `limit` del back.
 - Botón Recomendar: da y quita el me gusta, y actualiza el contador al instante.
-- Eliminar solo está disponible en las reseñas propias, con un modal de confirmación.
+- Eliminar está disponible en las reseñas propias (un administrador puede dar de baja cualquiera), con un modal de confirmación.
 - Nueva reseña en una ventana modal: título, texto, calificación de 1 a 5 estrellas y portada opcional con vista previa.
 - Tocando el título se abre la página de la reseña.
 
@@ -75,6 +80,33 @@ La URL de la API se define en `src/app/api.ts`: con `ng serve` (modo desarrollo)
 - Si el back responde 401, se cierra la sesión, se vuelve al login y se avisa con un modal.
 - Guards de rutas: sin sesión no se puede entrar a las pantallas privadas, y con sesión `/login` y `/registro` llevan a Reseñas.
 
+**Administración**
+- Un administrador ve el link "Panel" y puede dar de baja cualquier reseña desde el listado o desde su página. La reseña y sus notas dejan de estar disponibles.
+- Usuarios: listado con buscador y resumen, formulario de alta (el mismo del registro) con radio buttons para elegir "usuario" o "administrador", y botones para deshabilitar y volver a habilitar.
+- Un usuario deshabilitado recibe un aviso al intentar ingresar. Si tenía la sesión abierta, en su próxima acción vuelve al login con el aviso.
+- Estadísticas con tres tipos de gráfico: reseñas por usuario (barras), comentarios por día (líneas) y comentarios por reseña (torta). El período se elige con atajos (7, 30 o 90 días) o con fechas. Chart.js solo se descarga al entrar a esta pantalla.
+
+**Pipes propios**
+
+| Pipe | Ejemplo | Resultado |
+|---|---|---|
+| `estrellas` | `{{ 4 \| estrellas }}` | ★★★★☆ |
+| `tiempoRelativo` | `{{ nota.createdAt \| tiempoRelativo }}` | hace 5 min · ayer · hace 3 días |
+| `pluralizar` | `{{ 1 \| pluralizar:'nota' }}` | 1 nota / 3 notas |
+
+**Directivas propias**
+
+| Directiva | Tipo | Qué hace |
+|---|---|---|
+| `*appSiAdmin` | Estructural | Muestra el contenido solo a administradores (el link "Panel") |
+| `appImagenRespaldo` | De atributo | Si una portada o foto no carga, muestra una imagen de reemplazo |
+| `appAutofoco` | De atributo | Pone el cursor en el campo al aparecer (login, nueva reseña, editar nota) |
+
+**PWA**
+- Se puede instalar como aplicación: manifest con nombre, colores e íconos propios.
+- El service worker guarda la aplicación, las imágenes y las fuentes, así abre sin conexión. Las respuestas de la API no se guardan, para que los datos estén siempre actualizados.
+- Solo se activa en el build de producción (`ng build`), no con `ng serve`.
+
 **Interfaz**
 - Modales en lugar de `alert()` y `confirm()`, mediante un servicio central (`ModalService`) con tipos éxito, error e información, y confirmación con Cancelar y Aceptar.
 - Se cierran con la ×, un clic afuera o la tecla Esc.
@@ -86,13 +118,18 @@ La URL de la API se define en `src/app/api.ts`: con `ng serve` (modo desarrollo)
 src/app/
 ├── api.ts                  URL de la API (local o producción)
 ├── auth.interceptor.ts     agrega el token a las peticiones
-├── guards.ts               guards de pantallas privadas y de invitados
+├── guards.ts               guards de pantallas privadas, de invitados y de administrador
 ├── components/
 │   ├── modal/              modal de mensajes y confirmación
 │   ├── resena/             tarjeta de una reseña
-│   └── nueva-resena/       formulario para publicar
-├── pages/                  cargando, registro, login, publicaciones, publicacion, mi-perfil
-└── services/               auth, modal y publicaciones
+│   ├── nueva-resena/       formulario para publicar
+│   ├── formulario-usuario/ formulario de registro, compartido con el alta del panel
+│   └── grafico/            gráfico de Chart.js reutilizable
+├── directives/             appSiAdmin, appImagenRespaldo y appAutofoco
+├── pipes/                  estrellas, tiempoRelativo y pluralizar
+├── pages/                  cargando, registro, login, publicaciones, publicacion, mi-perfil,
+│                           editar-perfil y dashboard (usuarios y estadísticas)
+└── services/               auth, modal, publicaciones, usuarios y estadisticas
 ```
 
 ## Identidad visual

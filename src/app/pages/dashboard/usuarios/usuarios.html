@@ -1,0 +1,62 @@
+<section class="seccion">
+  <div class="cabecera">
+    <div>
+      <h1>Usuarios</h1>
+      <p class="bajada">
+        {{ resumen().total | pluralizar:'usuario' }} ·
+        {{ resumen().admins | pluralizar:'administrador':'administradores' }} ·
+        {{ resumen().deshabilitados | pluralizar:'deshabilitado' }}
+      </p>
+    </div>
+    <button (click)="mostrarForm.set(!mostrarForm())">{{ mostrarForm() ? 'Cerrar formulario' : 'Nuevo usuario' }}</button>
+  </div>
+
+  @if (mostrarForm()) {
+    <div class="panel-form">
+      <h2>Nuevo usuario</h2>
+      <p class="bajada">Completá los mismos datos del registro y elegí el perfil.</p>
+      <app-formulario-usuario [conPerfil]="true" textoBoton="Crear usuario" [enviando]="creando()" (enviar)="crear($event)" />
+    </div>
+  }
+
+  <div class="buscador">
+    <label for="buscar">Buscar</label>
+    <input id="buscar" type="search" placeholder="Nombre, usuario o correo"
+           [value]="busqueda()" (input)="busqueda.set($any($event.target).value)">
+  </div>
+
+  @if (cargando()) {
+    <p class="vacio">Cargando usuarios…</p>
+  } @else {
+    <ul class="lista">
+      @for (u of filtrados(); track u._id) {
+        <li class="fila" [class.inactivo]="!u.activo">
+          @if (u.imagenPerfil) {
+            <img appImagenRespaldo class="foto" [src]="u.imagenPerfil" alt="">
+          } @else {
+            <span class="foto inicial">{{ u.nombre.charAt(0).toUpperCase() }}</span>
+          }
+          <div class="datos">
+            <strong>{{ u.nombre }} {{ u.apellido }}</strong>
+            <span>&#64;{{ u.nombreUsuario }} · {{ u.correo }}</span>
+          </div>
+          <div class="etiquetas">
+            <span class="etiqueta" [class.admin]="u.perfil === 'administrador'">{{ u.perfil }}</span>
+            <span class="etiqueta estado" [class.off]="!u.activo">{{ u.activo ? 'Habilitado' : 'Deshabilitado' }}</span>
+          </div>
+          <div class="accion">
+            @if (esYo(u)) {
+              <span class="vos">Sos vos</span>
+            } @else {
+              <button class="sec chico" [class.peligro]="u.activo" [disabled]="enProceso() === u._id" (click)="cambiarEstado(u)">
+                {{ u.activo ? 'Deshabilitar' : 'Habilitar' }}
+              </button>
+            }
+          </div>
+        </li>
+      } @empty {
+        <li class="vacio">No hay usuarios que coincidan con la búsqueda.</li>
+      }
+    </ul>
+  }
+</section>

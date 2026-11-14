@@ -1,0 +1,73 @@
+<form [formGroup]="form" (ngSubmit)="confirmar()">
+  <div class="grilla">
+    <div class="campo">
+      <label for="nombre">Nombre</label>
+      <input id="nombre" formControlName="nombre">
+      @if (invalido('nombre')) { <span class="error">El nombre es obligatorio</span> }
+    </div>
+
+    <div class="campo">
+      <label for="apellido">Apellido</label>
+      <input id="apellido" formControlName="apellido">
+      @if (invalido('apellido')) { <span class="error">El apellido es obligatorio</span> }
+    </div>
+
+    <div class="campo ancho">
+      <label for="correo">Correo</label>
+      <input id="correo" type="email" formControlName="correo">
+      @if (invalido('correo')) { <span class="error">Ingresá un correo válido</span> }
+    </div>
+
+    <div class="campo">
+      <label for="nombreUsuario">Nombre de usuario</label>
+      <input id="nombreUsuario" formControlName="nombreUsuario">
+      @if (invalido('nombreUsuario')) { <span class="error">Mínimo 3 caracteres</span> }
+    </div>
+
+    <div class="campo">
+      <label for="fechaNacimiento">Fecha de nacimiento</label>
+      <input id="fechaNacimiento" type="date" [max]="hoy" formControlName="fechaNacimiento">
+      @if (invalido('fechaNacimiento')) {
+        <span class="error">{{ form.controls.fechaNacimiento.hasError('futura') ? 'La fecha no puede ser futura' : 'Ingresá la fecha de nacimiento' }}</span>
+      }
+    </div>
+
+    <div class="campo">
+      <label for="password">Contraseña</label>
+      <input id="password" type="password" formControlName="password">
+      @if (invalido('password')) { <span class="error">Mínimo 8 caracteres, una mayúscula y un número</span> }
+    </div>
+
+    <div class="campo">
+      <label for="repetir">Repetir contraseña</label>
+      <input id="repetir" type="password" formControlName="repetir"
+             [class.invalido]="form.hasError('noCoinciden') && form.get('repetir')?.touched">
+      @if (form.hasError('noCoinciden') && form.get('repetir')?.touched) {
+        <span class="error">Las contraseñas no coinciden</span>
+      }
+    </div>
+
+    <div class="campo ancho">
+      <label for="descripcion">{{ conPerfil ? 'Descripción breve' : 'Contanos qué estás leyendo' }}</label>
+      <textarea id="descripcion" rows="3" formControlName="descripcion"></textarea>
+    </div>
+
+    @if (conPerfil) {
+      <fieldset class="campo ancho perfil">
+        <legend>Perfil</legend>
+        <label class="opcion"><input type="radio" formControlName="perfil" value="usuario"> Usuario</label>
+        <label class="opcion"><input type="radio" formControlName="perfil" value="administrador"> Administrador</label>
+      </fieldset>
+    }
+
+    <div class="campo ancho foto-campo">
+      <div class="vista">@if (vista) { <img [src]="vista" alt="Vista previa"> }</div>
+      <div>
+        <label for="imagen">Foto de perfil</label>
+        <input id="imagen" type="file" accept="image/*" (change)="onFile($event)">
+      </div>
+    </div>
+  </div>
+
+  <button class="completo" [disabled]="form.invalid || enviando">{{ textoBoton }}</button>
+</form>

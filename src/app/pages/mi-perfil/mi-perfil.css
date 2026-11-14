@@ -4,6 +4,8 @@
 .foto.vacia { display:flex; align-items:center; justify-content:center; padding-bottom:.14em; background:var(--verde); color:var(--bg); font:700 3rem/1 'Playfair Display',serif; }
 .usuario { margin:0; color:var(--verde); font-weight:500; }
 .bio { max-width:55ch; margin:.75rem 0 0; }
+.boton-sec { display:inline-block; margin-top:1rem; padding:.4rem .9rem; font-size:.9rem; font-weight:500; text-decoration:none; color:var(--verde); border:1px solid var(--verde); border-radius:var(--radio-campo); }
+.boton-sec:hover { background:#2F5D5014; }
 .bloque { margin-top:2rem; }
 .datos { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1rem 1.5rem; margin:1rem 0 0; }
 .datos dt { font-size:.85rem; color:var(--tinta-suave); }

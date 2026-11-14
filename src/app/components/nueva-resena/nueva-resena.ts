@@ -1,12 +1,13 @@
 import { Component, EventEmitter, HostListener, Output, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AutofocoDirective } from '../../directives/autofoco.directive';
 import { ModalService } from '../../services/modal';
 import { PublicacionesService } from '../../services/publicaciones';
 
 
 @Component({
   selector: 'app-nueva-resena',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, AutofocoDirective],
   templateUrl: './nueva-resena.html',
   styleUrl: './nueva-resena.css',
 })

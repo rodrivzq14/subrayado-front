@@ -11,7 +11,7 @@
     <div class="contenido">
       <div class="campo">
         <label for="titulo">Título del libro</label>
-        <input id="titulo" formControlName="titulo">
+        <input appAutofoco id="titulo" formControlName="titulo">
         @if (invalido('titulo')) { <span class="error">Ingresá el título del libro</span> }
       </div>
 

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject, signal } from '@angular/core';
+import { Injectable, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs';
 import { API } from '../api';
@@ -40,6 +40,7 @@ export class AuthService {
   token = signal<string | null>(localStorage.getItem('token'));
   usuario = signal<any>(leerUsuario());
   validada = signal(false); // true cuando el token ya se validó en esta carga de la app
+  esAdmin = computed(() => this.usuario()?.perfil === 'administrador');
   private temporizadores: ReturnType<typeof setTimeout>[] = [];
 
   registro(datos: FormData) {
@@ -73,6 +74,11 @@ export class AuthService {
     );
   }
 
+  actualizarUsuario(usuario: any) {
+    localStorage.setItem('usuario', JSON.stringify(usuario));
+    this.usuario.set(usuario);
+  }
+
   logout() {
     this.limpiarTemporizadores();
     ['token', 'usuario', 'sesionDesde'].forEach((k) => localStorage.removeItem(k));
@@ -82,11 +88,15 @@ export class AuthService {
   }
 
   // Lo llama el interceptor ante un 401
-  sesionVencida() {
+  sesionVencida(motivo?: string) {
     if (!this.token()) return;
     this.logout();
     this.router.navigate(['/login']);
-    this.modal.abrir('Tu sesión venció', 'Ingresá de nuevo para seguir leyendo.', 'info');
+    if (motivo?.includes('deshabilitado')) {
+      this.modal.abrir('Tu usuario fue deshabilitado', 'Un administrador deshabilitó tu cuenta. No podés seguir usando la aplicación.', 'error');
+    } else {
+      this.modal.abrir('Tu sesión venció', 'Ingresá de nuevo para seguir leyendo.', 'info');
+    }
   }
 
   private iniciarSesion(r: { token: string; usuario: any }) {

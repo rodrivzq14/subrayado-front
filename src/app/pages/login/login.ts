@@ -1,12 +1,13 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { AutofocoDirective } from '../../directives/autofoco.directive';
 import { AuthService } from '../../services/auth';
 import { ModalService } from '../../services/modal';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, AutofocoDirective],
   templateUrl: './login.html',
 })
 export class Login {
@@ -29,7 +30,11 @@ export class Login {
     if (this.form.invalid) return this.form.markAllAsTouched();
     this.auth.login(this.form.getRawValue()).subscribe({
       next: () => this.router.navigate(['/cargando']),
-      error: (e) => this.modal.abrir('No pudimos ingresar', e.error?.message ?? 'Error de conexión', 'error'),
+      error: (e) => {
+        const mensaje: string = e.error?.message ?? 'Error de conexión';
+        const titulo = mensaje.includes('deshabilitado') ? 'Usuario deshabilitado' : 'No pudimos ingresar';
+        this.modal.abrir(titulo, mensaje, 'error');
+      },
     });
   }
 }

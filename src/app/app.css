@@ -9,6 +9,11 @@ nav a.activo { border-color:var(--oro); }
 .sesion a { font-weight:500; text-decoration:none; }
 .avatar { width:34px; height:34px; border-radius:50%; object-fit:cover; }
 @media (max-width:640px) {
-  .barra-in { gap:1rem; padding:0 1rem; }
+  .barra-in { flex-wrap:wrap; height:auto; min-height:var(--alto-barra); gap:.5rem 1rem; padding:.6rem 1rem; }
+  .logo { font-size:1.3rem; }
+  nav { order:3; width:100%; gap:1.25rem; padding-top:.4rem; border-top:1px solid var(--linea); }
+  nav a, .sesion a { white-space:nowrap; }
+  .sesion { gap:.6rem; }
   .sesion span { display:none; }
+  .sesion button { padding:.4rem .75rem; font-size:.85rem; }
 }
