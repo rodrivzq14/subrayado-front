@@ -5,7 +5,7 @@ import { tap } from 'rxjs';
 import { API } from '../api';
 import { ModalService } from './modal';
 
-const AVISO = 2 / 3;
+const AVISO_ANTES = 30_000;
 
 const duracionDelToken = (token: string | null) => {
   try {
@@ -120,7 +120,7 @@ export class AuthService {
     if (!vence) return;
     const falta = (ms: number) => Math.max(desde + ms - Date.now(), 0);
     this.temporizadores = [
-      setTimeout(() => this.avisar(), falta(vence * AVISO)),
+      setTimeout(() => this.avisar(), falta(vence - AVISO_ANTES)),
       setTimeout(() => this.verificarVencimiento(), falta(vence) + 1000),
     ];
   }

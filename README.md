@@ -3,7 +3,7 @@
 Aplicación web de **Subrayado**, una red social para lectores donde se publican reseñas de libros. Trabajo Práctico #2 de Programación IV (UTN Avellaneda, Tecnicatura Universitaria en Programación).
 
 - **Back:** https://github.com/rodrivzq14/subrayado-back
-- **App desplegada:** https://subrayado-vazquez.netlify.app
+- **App desplegada:** https://subrayado-front.vercel.app
 - **API desplegada:** https://subrayado-back.onrender.com
 
 > La API está en el plan gratuito de Render, que duerme el servicio tras un rato sin uso. La primera petición puede tardar hasta un minuto.
@@ -76,7 +76,8 @@ La URL de la API se define en `src/app/api.ts`: con `ng serve` (modo desarrollo)
 - Token y usuario guardados en `localStorage`, con botón de cerrar sesión en la barra.
 - Un interceptor agrega `Authorization: Bearer <token>` a cada petición.
 - Al abrir la app y después de cada login, una pantalla de carga valida el token con `autorizar`.
-- A los 10 minutos aparece un aviso para extender la sesión, que pide un token nuevo con `refrescar`. Los tiempos se calculan con la duración que trae el token.
+- 30 segundos antes de que venza el token (que dura 60 segundos) aparece un aviso para extender la sesión, que pide un token nuevo con `refrescar`. La duración se lee del propio token, así que solo se configura en el back.
+- Al vencer, el front consulta `autorizar`: el back responde 401 y la app vuelve al login.
 - Si el back responde 401, se cierra la sesión, se vuelve al login y se avisa con un modal.
 - Guards de rutas: sin sesión no se puede entrar a las pantallas privadas, y con sesión `/login` y `/registro` llevan a Reseñas.
 
@@ -144,15 +145,14 @@ src/app/
 
 Tipografías: Playfair Display (títulos) e Inter (texto). El subrayado dorado es la firma de la marca: aparece en el logo y en el enlace de la página activa.
 
-## Deploy (Netlify)
+## Deploy (Vercel)
 
+- **Framework preset:** Angular
 - **Build command:** `ng build`
-- **Carpeta de publicación:** `dist/<nombre-del-proyecto>/browser` (verificar el nombre exacto tras el build)
-- Para que las rutas funcionen al recargar, el sitio redirige todo a `index.html`, con el archivo `public/_redirects`:
+- **Output directory:** `dist/subrayado-front/browser`
+- Para que las rutas funcionen al recargar, `vercel.json` redirige todo a `index.html`. Los archivos que existen (JS, CSS, íconos, manifest y service worker) se sirven antes que esa regla.
 
-```
-/* /index.html 200
-```
+El proyecto también se puede publicar en Netlify con la misma build: `public/_redirects` cumple la función de `vercel.json`.
 
 ## Autor
 
